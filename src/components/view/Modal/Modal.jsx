@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import Stepper from "../Stepper/Stepper";
 import LoginPage from "../Login/LoginPage";
+import EmployeeCount from "../ModalComponents/EmployeeCount";
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 5;
@@ -16,7 +17,7 @@ export default function Modal({ isOpen, onClose }) {
     return savedForm
       ? JSON.parse(savedForm)
       : {
-          firstName: "",
+          employeeCount: "", // <-- add this field
           lastName: "",
           password: "",
           gender: "",
@@ -63,24 +64,11 @@ export default function Modal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const stepContent = [
-    <>
-      <h2 className="text-xl font-bold mb-4">Step 1: First Name</h2>
-      <input
-        type="text"
-        name="firstName"
-        value={form.firstName}
-        onChange={handleChange}
-        placeholder="Enter first name"
-        className="border p-2 w-full mb-4"
-      />
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={handleNext}
-        disabled={!form.firstName}
-      >
-        Next
-      </button>
-    </>,
+    <EmployeeCount
+      value={form.employeeCount}
+      onChange={handleChange}
+      onNext={handleNext}
+    />,
     <>
       <h2 className="text-xl font-bold mb-4">Step 2: Last Name</h2>
       <input
