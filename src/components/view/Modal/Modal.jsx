@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
-import LoginPage from "./LoginPage";
+
+import Stepper from "../Stepper/Stepper";
+import LoginPage from "../Login/LoginPage";
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 5;
@@ -22,7 +24,6 @@ export default function Modal({ isOpen, onClose }) {
         };
   });
 
-  // Add login state to show login after step 3
   const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
@@ -37,7 +38,6 @@ export default function Modal({ isOpen, onClose }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Show login after step 3
   const handleNext = () => {
     if (step === 3) {
       setShowLogin(true);
@@ -55,42 +55,12 @@ export default function Modal({ isOpen, onClose }) {
     // localStorage.removeItem("onboardingStep");
   };
 
-  // After successful login, go to step 4
   const handleLoginSuccess = () => {
     setShowLogin(false);
     setStep(4);
   };
 
   if (!isOpen) return null;
-
-  // Stepper component
-  const Stepper = () => (
-    <div className="flex items-center justify-center w-full py-4 bg-gray-100 rounded-t">
-      {Array.from({ length: totalSteps }).map((_, idx) => (
-        <React.Fragment key={idx}>
-          <div
-            className={`w-5 h-5 rounded-full flex items-center justify-center
-              ${step === idx + 1 && !showLogin ? "bg-blue-500" : "bg-gray-300"}
-              ${
-                step > idx + 1 && !showLogin
-                  ? "border-2 border-blue-500 bg-yellow-600"
-                  : ""
-              }
-              transition-all duration-1000`}
-          >
-            <span className="text-white text-xs"></span>
-          </div>
-          {idx < totalSteps - 1 && (
-            <div
-              className={`h-1 w-8 ${
-                step > idx + 1 && !showLogin ? "bg-blue-500" : "bg-gray-300"
-              } transition-all duration-200`}
-            />
-          )}
-        </React.Fragment>
-      ))}
-    </div>
-  );
 
   const stepContent = [
     <>
@@ -265,17 +235,27 @@ export default function Modal({ isOpen, onClose }) {
   ];
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded shadow-lg min-w-[300px] relative overflow-hidden">
-        {/* Stepper bar */}
-
+    <div className="absolute mt-10 w-full rounded-t-xl shadow-xl/20 sm:rounded-xl lg:mt-0 from-primary-light flex min-h-[85vh] flex-col bg-gradient-to-b from-20% to-white p-0 sm:min-h-0 sm:w-full sm:max-w-2xl md:p-0 backdrop:bg-black/60 backdrop:opacity-0 backdrop:backdrop-blur-xs backdrop:transition backdrop:transition-discrete backdrop:duration-500 open:flex open:translate-y-0 open:opacity-100 open:starting:translate-y-20 open:starting:opacity-0 open:backdrop:opacity-100 open:backdrop:starting:opacity-0">
+      <div className="bg-white p-8 rounded shadow-lg min-w-[300px] relative overflow-hidden bg-gradient-to-b from-20% from-[#EEF5FF]">
         <div className="pt-2">
           <AnimatePresence mode="wait">
             {showLogin ? (
-              <LoginPage onLogin={handleLoginSuccess} />
+              <motion.div
+                key="login"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+              >
+                <LoginPage onLogin={handleLoginSuccess} />
+              </motion.div>
             ) : (
               <>
-                <Stepper />
+                <Stepper
+                  step={step}
+                  totalSteps={totalSteps}
+                  showLogin={showLogin}
+                />
                 <motion.div
                   key={step}
                   initial={{ opacity: 0, x: 50 }}

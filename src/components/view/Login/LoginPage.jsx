@@ -10,7 +10,7 @@ export default function LoginPage({ onLogin }) {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    // Auth: username "forhadkhandev@gmail.com", password "123456"
+    // Auth: username "forhadkhandev", password "123456"
     if (
       loginForm.username === "forhadkhandev" &&
       loginForm.password === "123456"
@@ -19,7 +19,7 @@ export default function LoginPage({ onLogin }) {
       onLogin();
     } else {
       setLoginError(
-        "Invalid credentials. Try forhadkhandev@gmail.com / 123456."
+        "Invalid credentials. Try forhadkhandev / 123456."
       );
     }
   };
