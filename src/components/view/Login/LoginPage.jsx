@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import logo from "../../../assets/logo.png";
 
 export default function LoginPage({ onLogin }) {
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
@@ -10,7 +11,6 @@ export default function LoginPage({ onLogin }) {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    // Auth: username "forhadkhandev", password "123456"
     if (
       loginForm.username === "forhadkhandev" &&
       loginForm.password === "123456"
@@ -18,40 +18,124 @@ export default function LoginPage({ onLogin }) {
       setLoginError("");
       onLogin();
     } else {
-      setLoginError(
-        "Invalid credentials. Try forhadkhandev / 123456."
-      );
+      setLoginError("Invalid credentials. Try forhadkhandev / 123456.");
     }
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Login Required</h2>
-      <form onSubmit={handleLoginSubmit} className="mb-4">
-        <input
-          type="text"
-          name="username"
-          value={loginForm.username}
-          onChange={handleLoginChange}
-          placeholder="Username"
-          className="border p-2 w-full mb-2"
-        />
-        <input
-          type="password"
-          name="password"
-          value={loginForm.password}
-          onChange={handleLoginChange}
-          placeholder="Password"
-          className="border p-2 w-full mb-2"
-        />
-        {loginError && <div className="text-red-500 mb-2">{loginError}</div>}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
-        >
-          Login
-        </button>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow">
+        {/* Logo */}
+        <div className="flex h-full max-w-[410px] flex-col gap-y-6">
+          <div className="flex items-center gap-2 mb-auto ">
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-14 rounded-full h-14 bg-black"
+            />
+            <span className="text-xl font-bold ml-2 text-black">
+              QuantumOS.ai
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-2xl font-bold mb-2">👋 Welcome back!</h1>
+          <p className="text-gray-500 text-sm">
+            Log in with your Google, Microsoft, or Apple account.
+          </p>
+        </div>
+
+        {/* Social buttons */}
+        <div className="space-y-3">
+          <button
+            className="w-full flex items-center justify-center border rounded-md py-2 text-gray-400 bg-gray-100 cursor-not-allowed"
+            disabled
+          >
+            <img
+              src="https://www.svgrepo.com/show/355037/google.svg"
+              alt="Google"
+              className="w-5 h-5 mr-2"
+            />
+            Log in with Google
+          </button>
+
+          <button
+            className="w-full flex items-center justify-center border rounded-md py-2 text-gray-400 bg-gray-100 cursor-not-allowed"
+            disabled
+          >
+            <img
+              src="https://www.svgrepo.com/show/303142/microsoft.svg"
+              alt="Microsoft"
+              className="w-5 h-5 mr-2"
+            />
+            Log in with Microsoft
+          </button>
+
+          <button
+            className="w-full flex items-center justify-center border rounded-md py-2 text-gray-400 bg-gray-100 cursor-not-allowed"
+            disabled
+          >
+            <img
+              src="https://www.svgrepo.com/show/303128/apple-logo.svg"
+              alt="Apple"
+              className="w-5 h-5 mr-2"
+            />
+            Log in with Apple
+          </button>
+        </div>
+
+        {/* Divider */}
+        <div className="flex items-center my-6">
+          <hr className="flex-grow border-gray-300" />
+          <span className="mx-2 text-gray-500 text-sm">Or</span>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+
+        {/* Email / Password */}
+        <form className="space-y-4" onSubmit={handleLoginSubmit}>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              name="username"
+              value={loginForm.username}
+              onChange={handleLoginChange}
+              placeholder="forhadkhandev"
+              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 flex justify-between">
+              <span>Password</span>
+              <a href="#" className="text-sm text-blue-600 hover:underline">
+                Forgot your password?
+              </a>
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={loginForm.password}
+              onChange={handleLoginChange}
+              placeholder="Enter your password"
+              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+            />
+          </div>
+
+          {loginError && (
+            <div className="text-red-500 text-sm mb-2">{loginError}</div>
+          )}
+
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
+          >
+            Sign in
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
