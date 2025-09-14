@@ -3,14 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 import Stepper from "../Stepper/Stepper";
-import LoginPage from "../Login/LoginPage";
-import EmployeeCount from "../ModalComponents/EmployeeCount";
-import CompanyRole from "../ModalComponents/CompanyRole";
-import CompanyInterest from "../ModalComponents/CompanyInterest";
+import SignUpPage from "../SignUp/SignUpPage";
 import RadioGroupStep from "../ModalComponents/RadioGroupStep";
+
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 5;
+
 
   const [step, setStep] = useState(() => {
     const savedStep = localStorage.getItem("onboardingStep");
@@ -250,13 +249,12 @@ export default function Modal({ isOpen, onClose }) {
           <AnimatePresence mode="wait">
             {showLogin ? (
               <motion.div
-                key="login"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
               >
-                <LoginPage onLogin={handleLoginSuccess} />
+                <SignUpPage onLogin={handleLoginSuccess} />
               </motion.div>
             ) : (
               <>

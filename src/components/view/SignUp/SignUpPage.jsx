@@ -1,7 +1,7 @@
 import { useState } from "react";
 import logo from "../../../assets/logo.png";
 
-export default function LoginPage({ onLogin }) {
+export default function SignUpPage({ onLogin }) {
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const [loginError, setLoginError] = useState("");
 
@@ -23,10 +23,10 @@ export default function LoginPage({ onLogin }) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow">
+    <div className="flex items-center justify-center h-full bg-transparent top-10">
+      <div className="w-full max-w-md bg-transparent rounded-lg">
         {/* Logo */}
-        <div className="flex h-full max-w-[410px] flex-col gap-y-6">
+        <div className="flex h-full max-w-[410px] flex-col gap-y-4">
           <div className="flex items-center gap-2 mb-auto ">
             <img
               src={logo}
@@ -39,60 +39,68 @@ export default function LoginPage({ onLogin }) {
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold mb-2">👋 Welcome back!</h1>
-          <p className="text-gray-500 text-sm">
-            Log in with your Google, Microsoft, or Apple account.
+          <h1 className="text-2xl font-bold mb-2">
+            👋 Try Free Proposal Today{" "}
+          </h1>
+          <p className="text-gray-500 text-sm mb-6">
+            sign up to continue to QuantumOS.ai
           </p>
         </div>
 
         {/* Social buttons */}
-        <div className="space-y-3">
-          <button
-            className="w-full flex items-center justify-center border rounded-md py-2 text-gray-400 bg-gray-100 cursor-not-allowed"
-            disabled
-          >
-            <img
-              src="https://www.svgrepo.com/show/355037/google.svg"
-              alt="Google"
-              className="w-5 h-5 mr-2"
-            />
-            Log in with Google
-          </button>
-
-          <button
-            className="w-full flex items-center justify-center border rounded-md py-2 text-gray-400 bg-gray-100 cursor-not-allowed"
-            disabled
-          >
-            <img
-              src="https://www.svgrepo.com/show/303142/microsoft.svg"
-              alt="Microsoft"
-              className="w-5 h-5 mr-2"
-            />
-            Log in with Microsoft
-          </button>
-
-          <button
-            className="w-full flex items-center justify-center border rounded-md py-2 text-gray-400 bg-gray-100 cursor-not-allowed"
-            disabled
-          >
-            <img
-              src="https://www.svgrepo.com/show/303128/apple-logo.svg"
-              alt="Apple"
-              className="w-5 h-5 mr-2"
-            />
-            Log in with Apple
-          </button>
-        </div>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-gray-500 text-sm">Or</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
+        <div className="space-y-3"></div>
 
         {/* Email / Password */}
         <form className="space-y-4" onSubmit={handleLoginSubmit}>
+          <div className="flex space-x-3">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={loginForm.username}
+                onChange={handleLoginChange}
+                placeholder="you@example.com"
+                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={loginForm.email}
+                onChange={handleLoginChange}
+                placeholder="you@example.com"
+                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Phone Number
+            </label>
+            <input
+              type="number"
+              name="phone number"
+              value={loginForm.phone}
+              onChange={handleLoginChange}
+              placeholder="phone number"
+              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+            />
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center my-6">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-2 text-gray-500 text-sm">Or</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Username

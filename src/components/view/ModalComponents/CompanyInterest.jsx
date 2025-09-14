@@ -9,6 +9,7 @@ const options = [
 ];
 
 export default function CompanyInterest({ value, onChange, onNext, onPrev }) {
+
   return (
     <>
       <h2 className="font-display text-[#5072DF] mb-4 text-3xl/tight font-semibold tracking-tight text-balance sm:text-[32px]">
