@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Stepper from "../Stepper/Stepper";
 import LoginPage from "../Login/LoginPage";
 import EmployeeCount from "../ModalComponents/EmployeeCount";
+import CompanyRole from "../ModalComponents/CompanyRole";
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 5;
@@ -18,7 +19,7 @@ export default function Modal({ isOpen, onClose }) {
       ? JSON.parse(savedForm)
       : {
           employeeCount: "",
-          lastName: "",
+          companyRole: "",
           password: "",
           gender: "",
           source: "",
@@ -52,20 +53,27 @@ export default function Modal({ isOpen, onClose }) {
     setStep(1);
     setShowLogin(false);
     onClose();
-    // localStorage.removeItem("onboardingForm");
+    localStorage.removeItem("onboardingForm");
     // localStorage.removeItem("onboardingStep");
   };
 
   const handleLoginSuccess = () => {
     setShowLogin(false);
-    setStep(4);
+    setStep(5);
   };
 
   if (!isOpen) return null;
 
   const stepContent = [
+    // Employee count step
     <EmployeeCount
       value={form.employeeCount}
+      onChange={handleChange}
+      onNext={handleNext}
+    />,
+    // Company role step (rendered after employee count)
+    <CompanyRole
+      value={form.companyRole}
       onChange={handleChange}
       onNext={handleNext}
     />,
