@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import Stepper from "../Stepper/Stepper";
 import LoginPage from "../Login/LoginPage";
@@ -17,7 +17,7 @@ export default function Modal({ isOpen, onClose }) {
     return savedForm
       ? JSON.parse(savedForm)
       : {
-          employeeCount: "", // <-- add this field
+          employeeCount: "",
           lastName: "",
           password: "",
           gender: "",
