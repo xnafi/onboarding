@@ -10,7 +10,7 @@ const options = [
   "CEO or Executive",
 ];
 
-export default function CompanyRole({ value, onChange, onNext }) {
+export default function CompanyRole({ value, onChange, onNext,onPrev }) {
   return (
     <>
       <h2 className="font-display text-[#5072DF] mb-4 text-3xl/tight font-semibold tracking-tight text-balance sm:text-[32px]">
@@ -39,9 +39,18 @@ export default function CompanyRole({ value, onChange, onNext }) {
         ))}
       </div>
       {/* button for next */}
-      <Button onClick={onNext} variant="primary" disabled={!value}>
-        Next
-      </Button>
+      <div className="flex justify-between">
+        <Button
+          variant="secondary"
+          onClick={onPrev}
+        >
+          Back
+        </Button>
+        <Button onClick={onNext} variant="primary" disabled={!value}>
+          Next
+        </Button>
+      </div>
+     
     </>
   );
 }

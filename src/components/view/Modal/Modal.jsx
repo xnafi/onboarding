@@ -76,6 +76,7 @@ export default function Modal({ isOpen, onClose }) {
       value={form.companyRole}
       onChange={handleChange}
       onNext={handleNext}
+      onPrev={handlePrev}
     />,
     <>
       <h2 className="text-xl font-bold mb-4">Step 2: Last Name</h2>
