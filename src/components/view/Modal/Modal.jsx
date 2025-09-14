@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
@@ -5,6 +6,8 @@ import Stepper from "../Stepper/Stepper";
 import LoginPage from "../Login/LoginPage";
 import EmployeeCount from "../ModalComponents/EmployeeCount";
 import CompanyRole from "../ModalComponents/CompanyRole";
+import CompanyInterest from "../ModalComponents/CompanyInterest";
+import RadioGroupStep from "../ModalComponents/RadioGroupStep";
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 5;
@@ -20,7 +23,7 @@ export default function Modal({ isOpen, onClose }) {
       : {
           employeeCount: "",
           companyRole: "",
-          password: "",
+          companyInterest: "",
           gender: "",
           source: "",
         };
@@ -54,7 +57,6 @@ export default function Modal({ isOpen, onClose }) {
     setShowLogin(false);
     onClose();
     localStorage.removeItem("onboardingForm");
-    // localStorage.removeItem("onboardingStep");
   };
 
   const handleLoginSuccess = () => {
@@ -66,44 +68,55 @@ export default function Modal({ isOpen, onClose }) {
 
   const stepContent = [
     // Employee count step
-    <EmployeeCount
+    <RadioGroupStep
+      title="Get started with Quantum OS!"
+      subtitle="How many employees does your company have?"
+      options={[
+        "Just me",
+        "Between 2 and 14",
+        "Between 15 and 24",
+        "Between 25 and 49",
+        "Between 50 and 99",
+        "Between 100 and 499",
+        "500 or greater",
+      ]}
+      name="employeeCount"
       value={form.employeeCount}
       onChange={handleChange}
       onNext={handleNext}
     />,
-    // Company role step (rendered after employee count)
-    <CompanyRole
+    // Company role step
+    <RadioGroupStep
+      title="Get started with Quantum OS!"
+      subtitle="What is your role in the company?"
+      options={[
+        "Individual Contributor",
+        "Manager of Small Team",
+        "Manager of Large Team",
+        "Director or VP",
+        "CEO or Executive",
+      ]}
+      name="companyRole"
       value={form.companyRole}
       onChange={handleChange}
       onNext={handleNext}
       onPrev={handlePrev}
     />,
-    <>
-      <h2 className="text-xl font-bold mb-4">Step 2: Last Name</h2>
-      <input
-        type="text"
-        name="lastName"
-        value={form.lastName}
-        onChange={handleChange}
-        placeholder="Enter last name"
-        className="border p-2 w-full mb-4"
-      />
-      <div className="flex justify-between">
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={handlePrev}
-        >
-          Back
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleNext}
-          disabled={!form.lastName}
-        >
-          Next
-        </button>
-      </div>
-    </>,
+    //  company interest step
+    <RadioGroupStep
+      title="Get started with Quantum OS!"
+      subtitle="Why are you interested in Quantum OS? Select all that apply."
+      options={[
+        "Manage my personal tasks",
+        "Manage my team or company’s work",
+        "Set up AI Employees to do work for me or my team",
+      ]}
+      name="companyInterest"
+      value={form.companyInterest}
+      onChange={handleChange}
+      onNext={handleNext}
+      onPrev={handlePrev}
+    />,
     <>
       <h2 className="text-xl font-bold mb-4">Step 3: Password</h2>
       <input
@@ -219,7 +232,6 @@ export default function Modal({ isOpen, onClose }) {
         <button
           className="bg-green-500 text-white px-4 py-2 rounded"
           onClick={handleClose}
-          disabled={!form.source}
         >
           Finish
         </button>
