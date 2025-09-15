@@ -8,7 +8,7 @@ export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
     website: "",
-    companyRole: "",
+    role: "",
     companyInterest: "",
     password: "",
     gender: "",
@@ -75,6 +75,7 @@ export default function Onboarding() {
         </Button>
       </div>
     </>,
+    // Website input step
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
         What does your business do? if theres a website, <br /> please share it
@@ -87,6 +88,28 @@ export default function Onboarding() {
         value={form.website}
         onChange={handleChange}
         placeholder="Enter website URL"
+        className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
+      />
+      <div className="flex justify-center mt-4">
+        <Button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+      </div>
+    </div>,
+    // your role
+    <div className="flex flex-col items-center">
+      <h2 className="text-2xl font-bold mb-4">
+       Whtat's your role at the company?
+      </h2>
+      <input
+        type="text"
+        name="role"
+        value={form.role}
+        onChange={handleChange}
+        placeholder="Enter role URL"
         className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
       />
       <div className="flex justify-center mt-4">
