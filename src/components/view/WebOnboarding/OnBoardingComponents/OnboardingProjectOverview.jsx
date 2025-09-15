@@ -11,22 +11,21 @@ export default function OnboardingProjectOverview({
 }) {
   // Handle multiple task selection for Acme Plumber side
   const handleTaskSelect = (stageName, taskName) => {
-    const selected = form.stages || {};
-    const stageTasks = selected[stageName] || [];
+    const selectedTasks = form[stageName] || [];
 
-    let updatedStageTasks;
-    if (stageTasks.includes(taskName)) {
+    let updatedTasks;
+    if (selectedTasks.includes(taskName)) {
       // remove if already selected
-      updatedStageTasks = stageTasks.filter((t) => t !== taskName);
+      updatedTasks = selectedTasks.filter((t) => t !== taskName);
     } else {
       // add new task
-      updatedStageTasks = [...stageTasks, taskName];
+      updatedTasks = [...selectedTasks, taskName];
     }
 
     handleChange({
       target: {
-        name: "stages",
-        value: { ...selected, [stageName]: updatedStageTasks },
+        name: stageName,
+        value: updatedTasks,
       },
     });
   };
@@ -89,8 +88,7 @@ export default function OnboardingProjectOverview({
                         <input
                           type="checkbox"
                           checked={
-                            form.stages?.[stage.name]?.includes(task.task) ||
-                            false
+                            form[stage.name]?.includes(task.task) || false
                           }
                           onChange={() =>
                             handleTaskSelect(stage.name, task.task)
@@ -111,6 +109,7 @@ export default function OnboardingProjectOverview({
             ))}
           </div>
         </div>
+
         <Button
           onClick={handleNext}
           className="bg-blue-500 text-white px-6 py-2 rounded self-end block md:hidden"
@@ -119,6 +118,7 @@ export default function OnboardingProjectOverview({
         </Button>
       </div>
 
+      {/* Display collected form data */}
       <div className="mt-4 text-sm text-gray-600">
         <strong>Collected Data:</strong>
         <pre>{JSON.stringify(form, null, 2)}</pre>
