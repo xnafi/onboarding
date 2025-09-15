@@ -6,10 +6,8 @@ import Stepper from "../Stepper/Stepper";
 import SignUpPage from "../SignUp/SignUpPage";
 import RadioGroupStep from "../ModalComponents/RadioGroupStep";
 
-
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 3;
-
 
   const [step, setStep] = useState(() => {
     const savedStep = localStorage.getItem("onboardingStep");

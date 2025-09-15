@@ -7,7 +7,7 @@ import Button from "../../re-ui/Button";
 export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
-    employeeCount: "",
+    website: "",
     companyRole: "",
     companyInterest: "",
     password: "",
@@ -66,7 +66,7 @@ export default function Onboarding() {
         />
       </div>
 
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-4">
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleNext}
@@ -75,17 +75,21 @@ export default function Onboarding() {
         </Button>
       </div>
     </>,
-    <div className="flex flex-col items-center  border">
-      <h2 className="text-xl font-bold mb-4">Step 3: Password</h2>
-      <input
-        type="password"
-        name="password"
-        value={form.password}
+    <div className="flex flex-col items-center">
+      <h2 className="text-2xl font-bold mb-4">
+        What does your business do? if theres a website, <br /> please share it
+        with us.
+      </h2>
+      <textarea
+        type="text"
+        rows={5}
+        name="website"
+        value={form.website}
         onChange={handleChange}
-        placeholder="Enter password"
-        className="border p-2 w-full mb-4"
+        placeholder="Enter website URL"
+        className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
       />
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-4">
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleNext}
@@ -109,10 +113,8 @@ export default function Onboarding() {
 
       {/* Multi-step form after modal */}
       {!isOpen && (
-        <div className="flex-1 flex justify-center items-center">
-          <div className="text-center">
-            {stepContent[currentStep]}
-          </div>
+        <div className="flex-1 flex justify-center items-center px-2">
+          <div className="text-center">{stepContent[currentStep]}</div>
         </div>
       )}
     </div>
