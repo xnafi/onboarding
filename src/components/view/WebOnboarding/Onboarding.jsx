@@ -9,7 +9,7 @@ export default function Onboarding() {
   const [form, setForm] = useState({
     website: "",
     role: "",
-    companyInterest: "",
+    projectDetails: "",
     password: "",
     gender: "",
     source: "",
@@ -102,7 +102,7 @@ export default function Onboarding() {
     // your role
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
-       Whtat's your role at the company?
+        what's your role at the company?
       </h2>
       <input
         type="text"
@@ -119,6 +119,36 @@ export default function Onboarding() {
         >
           Next
         </Button>
+      </div>
+    </div>,
+    // tell me more about your project
+    <div className="flex flex-col items-center">
+      <h2 className="text-2xl font-bold my-3">
+        Tell me more about your project
+      </h2>
+      {/* placeholder text */}
+      <p className="mb-2">Please provide details about your project.</p>
+      <textarea
+        type="text"
+        cols={80}
+        rows={15}
+        name="project"
+        value={form.project}
+        onChange={handleChange}
+        placeholder="Enter project details"
+        className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
+      />
+      <div className="flex justify-center mt-4">
+        <Button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+      </div>
+      <div className="mt-4 text-sm text-gray-600">
+        <strong>Collected Data:</strong>
+        <pre>{JSON.stringify(form, null, 2)}</pre>
       </div>
     </div>,
   ];
