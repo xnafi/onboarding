@@ -11,9 +11,6 @@ export default function Onboarding() {
     website: "",
     role: "",
     projectDetails: "",
-    password: "",
-    gender: "",
-    source: "",
   });
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = next, -1 = prev
@@ -54,6 +51,30 @@ export default function Onboarding() {
   };
 
   const stepContent = [
+    <>
+      <div className="flex justify-center my-4 w-full">
+        <div className="w-full lg:min-w-4xl aspect-[16/9] h-[400px] lg:h-full">
+          <iframe
+            className="w-full h-full"
+            src="https://www.youtube.com/embed/Io0fBr1XBUA?list=RDIo0fBr1XBUA"
+            title="The Chainsmokers - Don't Let Me Down (Official Video) ft. Daya"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+
+      <div className="flex justify-center mt-4">
+        <Button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+      </div>
+    </>,
     <>
       <h2 className="text-2xl font-bold mb-4">
         Lets setup your Quantum account
