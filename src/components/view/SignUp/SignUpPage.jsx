@@ -1,9 +1,12 @@
 import { useState } from "react";
 import logo from "../../../assets/logo.png";
+import { useNavigate } from "react-router";
 
 export default function SignUpPage({ onLogin }) {
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const [loginError, setLoginError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
@@ -17,6 +20,7 @@ export default function SignUpPage({ onLogin }) {
     ) {
       setLoginError("");
       onLogin();
+      navigate("/web-onboarding"); 
     } else {
       setLoginError("Invalid credentials. Try forhadkhandev / 123456.");
     }

@@ -8,7 +8,7 @@ import RadioGroupStep from "../ModalComponents/RadioGroupStep";
 
 
 export default function Modal({ isOpen, onClose }) {
-  const totalSteps = 5;
+  const totalSteps = 3;
 
 
   const [step, setStep] = useState(() => {
@@ -23,8 +23,6 @@ export default function Modal({ isOpen, onClose }) {
           employeeCount: "",
           companyRole: "",
           companyInterest: "",
-          gender: "",
-          source: "",
         };
   });
 
@@ -60,7 +58,7 @@ export default function Modal({ isOpen, onClose }) {
 
   const handleLoginSuccess = () => {
     setShowLogin(false);
-    setStep(5);
+    setStep(3);
   };
 
   if (!isOpen) return null;
@@ -115,131 +113,7 @@ export default function Modal({ isOpen, onClose }) {
       onChange={handleChange}
       onNext={handleNext}
       onPrev={handlePrev}
-    />,
-    <>
-      <h2 className="text-xl font-bold mb-4">Step 3: Password</h2>
-      <input
-        type="password"
-        name="password"
-        value={form.password}
-        onChange={handleChange}
-        placeholder="Enter password"
-        className="border p-2 w-full mb-4"
-      />
-      <div className="flex justify-between">
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={handlePrev}
-        >
-          Back
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleNext}
-          disabled={!form.password}
-        >
-          Next
-        </button>
-      </div>
-    </>,
-    <>
-      <h2 className="text-xl font-bold mb-4">Step 4: Gender</h2>
-      <select
-        name="gender"
-        value={form.gender}
-        onChange={handleChange}
-        className="border p-2 w-full mb-4"
-      >
-        <option value="">Select gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-      <div className="flex justify-between">
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={handlePrev}
-        >
-          Back
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleNext}
-          disabled={!form.gender}
-        >
-          Next
-        </button>
-      </div>
-    </>,
-    <>
-      <h2 className="text-xl font-bold mb-4">
-        Step 5: What’s the source of this earning?
-      </h2>
-      <div className="mb-4">
-        <label className="mr-4">
-          <input
-            type="radio"
-            name="source"
-            value="job"
-            checked={form.source === "job"}
-            onChange={handleChange}
-            className="mr-1"
-          />
-          Job
-        </label>
-        <label className="mr-4">
-          <input
-            type="radio"
-            name="source"
-            value="business"
-            checked={form.source === "business"}
-            onChange={handleChange}
-            className="mr-1"
-          />
-          Business
-        </label>
-        <label className="mr-4">
-          <input
-            type="radio"
-            name="source"
-            value="investment"
-            checked={form.source === "investment"}
-            onChange={handleChange}
-            className="mr-1"
-          />
-          Investment
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="source"
-            value="other"
-            checked={form.source === "other"}
-            onChange={handleChange}
-            className="mr-1"
-          />
-          Other
-        </label>
-      </div>
-      <div className="flex justify-between">
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={handlePrev}
-        >
-          Back
-        </button>
-        <button
-          className="bg-green-500 text-white px-4 py-2 rounded"
-          onClick={handleClose}
-        >
-          Finish
-        </button>
-      </div>
-      <div className="mt-4 text-sm text-gray-600">
-        <strong>Collected Data:</strong>
-        <pre>{JSON.stringify(form, null, 2)}</pre>
-      </div>
-    </>,
+    />
   ];
 
   return (
