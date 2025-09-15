@@ -23,7 +23,7 @@ export default function SignUpPage({ onLogin }) {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-transparent top-10">
+    <div className="flex items-center justify-center h-full bg-transparent">
       <div className="w-full max-w-md bg-transparent rounded-lg">
         {/* Logo */}
         <div className="flex h-full max-w-[410px] flex-col gap-y-4">
@@ -55,27 +55,27 @@ export default function SignUpPage({ onLogin }) {
           <div className="flex space-x-3">
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700">
-                Username
+                First Name
               </label>
               <input
                 type="text"
-                name="username"
-                value={loginForm.username}
+                name="firstName"
+                value={loginForm.firstName}
                 onChange={handleLoginChange}
-                placeholder="you@example.com"
+                placeholder="First Name"
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
               />
             </div>
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700">
-                Email
+                Last Name
               </label>
               <input
-                type="email"
-                name="email"
-                value={loginForm.email}
+                type="text"
+                name="lastName"
+                value={loginForm.lastName}
                 onChange={handleLoginChange}
-                placeholder="you@example.com"
+                placeholder="Last Name"
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
               />
             </div>
