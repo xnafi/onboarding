@@ -1,9 +1,10 @@
-import React from 'react'
-import Button from '../../../re-ui/Button'
+import React from "react";
+import Button from "../../../re-ui/Button";
 
-export default function OnBoardingVideo() {
+export default function OnBoardingVideo({ handleNext }) {
   return (
-          <div className="flex justify-center my-4 w-full">
+    <>
+      <div className="flex justify-center my-4 w-full">
         <div className="w-full lg:min-w-4xl aspect-[16/9] h-[400px] lg:h-full">
           <iframe
             className="w-full h-full"
@@ -16,5 +17,14 @@ export default function OnBoardingVideo() {
           ></iframe>
         </div>
       </div>
-  )
+      <div className="flex justify-center mt-4">
+        <Button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+      </div>
+    </>
+  );
 }

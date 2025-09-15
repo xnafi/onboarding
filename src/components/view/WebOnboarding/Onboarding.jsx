@@ -5,6 +5,7 @@ import Button from "../../re-ui/Button";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import OnBoardingVideo from "./OnBoardingComponents/OnBoardingVideo";
+import SetupAccount from "./OnBoardingComponents/SetupAccount";
 
 export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,41 +53,14 @@ export default function Onboarding() {
   };
 
   const stepContent = [
-    <>
-      <OnBoardingVideo />
-      <div className="flex justify-center mt-4">
-        <Button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleNext}
-        >
-          Next
-        </Button>
-      </div>
-    </>,
-    <>
-      <h2 className="text-2xl font-bold mb-4">
-        Lets setup your Quantum account
-      </h2>
-      <p>Please provide the necessary information to create your account.</p>
-      <div className="flex justify-center my-6">
-        <img
-          src="https://images.pexels.com/photos/33835408/pexels-photo-33835408.jpeg"
-          alt="Placeholder"
-          className="w-[400px] h-[300px] object-cover rounded"
-        />
-      </div>
-      <div className="flex justify-center mt-4">
-        <Button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleNext}
-        >
-          Next
-        </Button>
-      </div>
-    </>,
+    // starting video component
+    <OnBoardingVideo handleNext={handleNext} />,
+    // setup account
+    <SetupAccount handleNext={handleNext} />,
+
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
-        What does your business do? if theres a website, <br /> please share it
+        What does your business do? if theres a website, please share it
         with us.
       </h2>
       <textarea
@@ -112,6 +86,7 @@ export default function Onboarding() {
         </Button>
       </div>
     </div>,
+    // role step
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
         what's your role at the company?
@@ -124,7 +99,7 @@ export default function Onboarding() {
         placeholder="Enter role"
         className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
       />
-      <div className="flex justify-between mt-4 w-full max-w-md">
+      <div className="flex justify-between mt-4 w-full ">
         <Button
           className="bg-gray-500 text-white px-4 py-2 rounded"
           onClick={handlePrev}
