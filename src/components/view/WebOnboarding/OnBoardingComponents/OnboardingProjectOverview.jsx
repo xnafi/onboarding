@@ -58,7 +58,7 @@ export default function OnboardingProjectOverview({
 
           <Button
             onClick={handleNext}
-            className="bg-blue-500 text-white px-6 py-2 rounded self-end"
+            className="bg-blue-500 text-white px-6 py-2 rounded self-end hidden md:block"
           >
             Continue
           </Button>
@@ -97,8 +97,10 @@ export default function OnboardingProjectOverview({
                           }
                           className="ml-2"
                         />
-                        <span>{task.task}</span>
-                        <span className="bg-gray-100 px-2 py-1 rounded text-sm ml-2">
+                        <span className="text-[10px] md:text-sm ">
+                          {task.task}
+                        </span>
+                        <span className="bg-gray-100 px-2 py-1 rounded text-[10px] md:text-sm ml-2">
                           {task.role}
                         </span>
                       </label>
@@ -109,6 +111,12 @@ export default function OnboardingProjectOverview({
             ))}
           </div>
         </div>
+        <Button
+          onClick={handleNext}
+          className="bg-blue-500 text-white px-6 py-2 rounded self-end block md:hidden"
+        >
+          Continue
+        </Button>
       </div>
 
       <div className="mt-4 text-sm text-gray-600">
