@@ -6,6 +6,7 @@ import Button from "../../re-ui/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import OnBoardingVideo from "./OnBoardingComponents/OnBoardingVideo";
 import SetupAccount from "./OnBoardingComponents/SetupAccount";
+import DescribeBusiness from "./OnBoardingComponents/DescribeBusiness";
 
 export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,35 +58,14 @@ export default function Onboarding() {
     <OnBoardingVideo handleNext={handleNext} />,
     // setup account
     <SetupAccount handleNext={handleNext} />,
+    // describe business step
+    <DescribeBusiness
+      form={form}
+      handleChange={handleChange}
+      handlePrev={handlePrev}
+      handleNext={handleNext}
+    />,
 
-    <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-bold mb-4">
-        What does your business do? if theres a website, please share it
-        with us.
-      </h2>
-      <textarea
-        rows={5}
-        name="website"
-        value={form.website}
-        onChange={handleChange}
-        placeholder="Enter website URL"
-        className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
-      />
-      <div className="flex justify-between mt-4 w-full max-w-md">
-        <Button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={handlePrev}
-        >
-          Back
-        </Button>
-        <Button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleNext}
-        >
-          Next
-        </Button>
-      </div>
-    </div>,
     // role step
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
