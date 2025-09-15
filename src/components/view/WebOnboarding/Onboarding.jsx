@@ -4,6 +4,7 @@ import Navbar from "../../shared/Navbar";
 import Button from "../../re-ui/Button";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
+import OnBoardingVideo from "./OnBoardingComponents/OnBoardingVideo";
 
 export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,20 +53,7 @@ export default function Onboarding() {
 
   const stepContent = [
     <>
-      <div className="flex justify-center my-4 w-full">
-        <div className="w-full lg:min-w-4xl aspect-[16/9] h-[400px] lg:h-full">
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/Io0fBr1XBUA?list=RDIo0fBr1XBUA"
-            title="The Chainsmokers - Don't Let Me Down (Official Video) ft. Daya"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </div>
-
+      <OnBoardingVideo />
       <div className="flex justify-center mt-4">
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
