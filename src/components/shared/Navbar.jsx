@@ -1,5 +1,7 @@
 import logo from "../../assets/logo.png";
+import Stepper from "../view/Stepper/Stepper";
 export default function Navbar() {
+  const step = 5;
   return (
     <nav className="w-full border-b bg-white shadow-sm relative z-20">
       <div className="mx-auto max-w-[1440px] flex items-center justify-between px-4 py-3 md:px-8">
@@ -14,6 +16,9 @@ export default function Navbar() {
           <span className="text-xl font-bold ml-2 text-black">
             QuantumOS.ai
           </span>
+        </div>
+        <div>
+          <Stepper step={step} totalSteps={2} className="bg-amber-800" />
         </div>
 
         {/* Desktop Menu */}
