@@ -5,7 +5,7 @@ export default function OnBoardingVideo({ handleNext }) {
   return (
     <>
       <div className="flex justify-center my-4 w-full">
-        <div className="w-full lg:min-w-4xl aspect-[16/9] h-[400px] lg:h-full">
+        <div className="aspect-[16/9] w-full xl:w-[800px] h-[400px] lg:h-full max-w-[1440px]">
           <iframe
             className="w-full h-full"
             src="https://www.youtube.com/embed/Io0fBr1XBUA?list=RDIo0fBr1XBUA"

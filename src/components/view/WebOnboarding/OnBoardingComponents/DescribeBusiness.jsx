@@ -7,8 +7,8 @@ export default function DescribeBusiness({
   handleNext,
 }) {
   return (
-    <div className="flex flex-col items-center px-4 ">
-      <h2 className="text-2xl font-bold mb-4 text-center">
+    <div className="flex flex-col items-center px-4 max-w-lg justify-center mx-auto">
+      <h2 className="text-2xl font-bold mb-4 text-center max-w-lg">
         What does your business do? If there’s a website, please share it
         with us.
       </h2>

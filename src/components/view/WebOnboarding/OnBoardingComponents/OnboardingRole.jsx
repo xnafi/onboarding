@@ -7,7 +7,7 @@ export default function OnboardingRole({
   handleNext,
 }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center max-w-md justify-center mx-auto">
       <h2 className="text-2xl font-bold mb-4">
         what's your role at the company?
       </h2>
