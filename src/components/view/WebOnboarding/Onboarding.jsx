@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import OnboardingModal from "./OnboardingModal/OnboardingModal";
 import Navbar from "../../shared/Navbar";
-import RadioGroupStep from "../ModalComponents/RadioGroupStep";
 import Button from "../../re-ui/Button";
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +16,8 @@ export default function Onboarding() {
     source: "",
   });
   const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 = next, -1 = prev
 
-  // Check localStorage on mount
   useEffect(() => {
     const savedData = localStorage.getItem("onboardingData");
     if (savedData) {
@@ -27,18 +28,22 @@ export default function Onboarding() {
     }
   }, []);
 
-  // Update form state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleNext = () => {
+    setDirection(1);
     if (currentStep < stepContent.length - 1)
       setCurrentStep((prev) => prev + 1);
   };
 
-  // Merge modal data into form
+  const handlePrev = () => {
+    setDirection(-1);
+    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
+  };
+
   const handleContinue = (modalData) => {
     setForm((prev) => ({ ...prev, ...modalData }));
     setIsOpen(false);
@@ -48,16 +53,12 @@ export default function Onboarding() {
     );
   };
 
-  // Steps after modal
   const stepContent = [
     <>
       <h2 className="text-2xl font-bold mb-4">
         Lets setup your Quantum account
       </h2>
-      {/* placeholder text */}
       <p>Please provide the necessary information to create your account.</p>
-
-      {/* placeholder image */}
       <div className="flex justify-center my-6">
         <img
           src="https://images.pexels.com/photos/33835408/pexels-photo-33835408.jpeg"
@@ -65,7 +66,6 @@ export default function Onboarding() {
           className="w-[400px] h-[300px] object-cover rounded"
         />
       </div>
-
       <div className="flex justify-center mt-4">
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -75,14 +75,12 @@ export default function Onboarding() {
         </Button>
       </div>
     </>,
-    // Website input step
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
         What does your business do? if theres a website, <br /> please share it
         with us.
       </h2>
       <textarea
-        type="text"
         rows={5}
         name="website"
         value={form.website}
@@ -90,7 +88,13 @@ export default function Onboarding() {
         placeholder="Enter website URL"
         className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
       />
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-between mt-4 w-full max-w-md">
+        <Button
+          className="bg-gray-500 text-white px-4 py-2 rounded"
+          onClick={handlePrev}
+        >
+          Back
+        </Button>
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleNext}
@@ -99,7 +103,6 @@ export default function Onboarding() {
         </Button>
       </div>
     </div>,
-    // your role
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">
         what's your role at the company?
@@ -109,10 +112,16 @@ export default function Onboarding() {
         name="role"
         value={form.role}
         onChange={handleChange}
-        placeholder="Enter role URL"
+        placeholder="Enter role"
         className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
       />
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-between mt-4 w-full max-w-md">
+        <Button
+          className="bg-gray-500 text-white px-4 py-2 rounded"
+          onClick={handlePrev}
+        >
+          Back
+        </Button>
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleNext}
@@ -121,24 +130,27 @@ export default function Onboarding() {
         </Button>
       </div>
     </div>,
-    // tell me more about your project
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold my-3">
         Tell me more about your project
       </h2>
-      {/* placeholder text */}
       <p className="mb-2">Please provide details about your project.</p>
       <textarea
-        type="text"
         cols={80}
         rows={15}
-        name="project"
-        value={form.project}
+        name="projectDetails"
+        value={form.projectDetails}
         onChange={handleChange}
         placeholder="Enter project details"
         className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
       />
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-between mt-4 w-full max-w-md">
+        <Button
+          className="bg-gray-500 text-white px-4 py-2 rounded"
+          onClick={handlePrev}
+        >
+          Back
+        </Button>
         <Button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleNext}
@@ -153,21 +165,39 @@ export default function Onboarding() {
     </div>,
   ];
 
+  // Animation variants
+  const variants = {
+    enter: (direction) => ({ y: direction > 0 ? 50 : -50, opacity: 0 }),
+    center: { y: 0, opacity: 1 },
+    exit: (direction) => ({ y: direction > 0 ? -50 : 50, opacity: 0 }),
+  };
+
   return (
     <div className="relative min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
-      {/* Modal overlay */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <OnboardingModal onContinue={handleContinue} />
         </div>
       )}
 
-      {/* Multi-step form after modal */}
       {!isOpen && (
         <div className="flex-1 flex justify-center items-center px-2">
-          <div className="text-center">{stepContent[currentStep]}</div>
+          <AnimatePresence custom={direction} mode="wait">
+            <motion.div
+              key={currentStep}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.4 }}
+              className="text-center w-full max-w-md"
+            >
+              {stepContent[currentStep]}
+            </motion.div>
+          </AnimatePresence>
         </div>
       )}
     </div>
