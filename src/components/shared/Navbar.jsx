@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import logo from "../../assets/logo.png";
 
 export default function Navbar() {
@@ -6,7 +7,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-[1440px] flex items-center justify-between px-4 py-3 md:px-8">
         {/* Logo */}
 
-        <div className="flex items-center gap-2 mb-auto ">
+        <Link to="/" className="flex items-center gap-2 mb-auto ">
           <img
             src={logo}
             alt="Logo"
@@ -15,7 +16,7 @@ export default function Navbar() {
           <span className="text-xl font-bold ml-2 text-black">
             QuantumOS.ai
           </span>
-        </div>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">

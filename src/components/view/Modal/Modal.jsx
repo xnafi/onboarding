@@ -102,9 +102,10 @@ export default function Modal({ isOpen, onClose }) {
       title="Get started with Quantum OS!"
       subtitle="Why are you interested in Quantum OS? Select all that apply."
       options={[
-        "Ai inbound and outbound receptionist, call center, dis",
-        "Manage my team or company’s work",
-        "Set up AI Employees to do work for me or my team",
+        "Ai inbound and outbound receptionist, call center, dispatch, support, sales",
+        "lead generation with automation and ai qualifying",
+        "automate my font and back office workforce",
+        "increase my sales while reducing my overhead"
       ]}
       name="companyInterest"
       value={form.companyInterest}

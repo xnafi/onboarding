@@ -20,7 +20,7 @@ export default function RadioGroupStep({
         {title}
       </h2>
       <h3 className="mb-4 text-lg font-semibold">{subtitle}</h3>
-      <div className="flex mb-4 flex-col space-y-2">
+      <div className="flex mb-4 flex-col space-y-2 capitalize">
         {options.map((opt) => (
           <label
             key={opt}
