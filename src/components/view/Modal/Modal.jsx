@@ -2,8 +2,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import SignUpPage from "../SignUp/SignUpPage";
-import RadioGroupStep from "../ModalComponents/RadioGroupStep";
 import Stepper from "../../re-ui/Stepper/Stepper";
+import RadioGroupStep from "../../re-ui/RadioGroupStep";
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 3;
@@ -105,7 +105,7 @@ export default function Modal({ isOpen, onClose }) {
         "Ai inbound and outbound receptionist, call center, dispatch, support, sales",
         "lead generation with automation and ai qualifying",
         "automate my font and back office workforce",
-        "increase my sales while reducing my overhead"
+        "increase my sales while reducing my overhead",
       ]}
       name="companyInterest"
       value={form.companyInterest}
@@ -117,7 +117,7 @@ export default function Modal({ isOpen, onClose }) {
 
   return (
     <div className="absolute mt-10 w-full rounded-t-xl shadow-xl/20 sm:rounded-xl lg:mt-0 from-primary-light flex min-h-[85vh] flex-col bg-gradient-to-b from-20% to-white p-0 sm:min-h-0 sm:w-full sm:max-w-2xl md:p-0 backdrop:bg-black/60 backdrop:opacity-0 backdrop:backdrop-blur-xs backdrop:transition backdrop:transition-discrete backdrop:duration-500 open:flex open:translate-y-0 open:opacity-100 open:starting:translate-y-20 open:starting:opacity-0 open:backdrop:opacity-100 open:backdrop:starting:opacity-0">
-      <div className="bg-white p-8 rounded shadow-lg min-w-[300px] relative overflow-hidden bg-gradient-to-b from-20% from-[#EEF5FF]">
+      <div className="bg-white p-8 rounded min-w-[300px] relative overflow-hidden bg-gradient-to-b from-20% from-[#EEF5FF]">
         <div className="pt-2">
           <AnimatePresence mode="wait">
             {showLogin ? (

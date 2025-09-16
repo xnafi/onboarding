@@ -1,5 +1,4 @@
-import React from "react";
-import Button from "../../re-ui/Button";
+import Button from "./Button";
 
 export default function RadioGroupStep({
   title,
