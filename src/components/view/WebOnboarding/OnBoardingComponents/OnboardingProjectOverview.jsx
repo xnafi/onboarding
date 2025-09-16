@@ -36,7 +36,7 @@ export default function OnboardingProjectOverview({
         {/* Left Side: Project Overview */}
         <div className="flex flex-col items-start justify-center">
           <h2 className="text-2xl font-bold mb-2">{projectTitle}</h2>
-          <p className="text-gray-600 mb-4">{projectDescription}</p>
+          <p className="text-gray-600 mb-4 text-left lg:text-base">{projectDescription}</p>
 
           <div className="space-y-2 mb-6 flex flex-col">
             {stages.map((stage) => (

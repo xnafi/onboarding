@@ -28,7 +28,7 @@ export default function Celebration() {
           return (
             <motion.div
               key={i}
-              className="absolute w-3 h-3 rounded-full"
+              className="absolute w-3 h-3 rounded-full px-2"
               style={{ backgroundColor: randomColor }}
               initial={{ x: 0, y: 0, rotate: 0, scale: 0 }}
               animate={{
@@ -45,12 +45,12 @@ export default function Celebration() {
 
         {/* Celebration message */}
         <motion.h1
-          className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg text-center mt-10"
+          className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg text-center mt-10"
           initial={{ scale: 0, y: 50 }}
           animate={{ scale: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 12 }}
         >
-          🎉 Congratulations! 🎉
+          Congratulations!
           <br />
           You did it!
         </motion.h1>
@@ -61,7 +61,6 @@ export default function Celebration() {
           transition={{ type: "spring", stiffness: 200, damping: 12 }}
         >
           Hang on, we will navigate to you success
-     
         </motion.h1>
 
         {/* Floating sparkles */}

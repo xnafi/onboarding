@@ -137,10 +137,10 @@ export default function Modal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2"
       onKeyDown={(e) => e.key === "Escape" && handleClose()}
     >
-      <div className="bg-white p-8 rounded-xl shadow-xl relative max-w-2xl w-full min-h-[85vh] overflow-hidden">
+      <div className="bg-white p-4 lg:p-8 rounded-xl shadow-xl relative max-w-2xl w-full min-h-[85vh] overflow-hidden">
         <button
           aria-label="Close modal"
           className="absolute top-1 right-2 cursor-pointer bg-red-500 text-white px-2 rounded-md"
