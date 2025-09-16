@@ -117,12 +117,6 @@ export default function OnboardingProjectOverview({
           Continue
         </Button>
       </div>
-
-      {/* Display collected form data */}
-      <div className="mt-4 text-sm text-gray-600">
-        <strong>Collected Data:</strong>
-        <pre>{JSON.stringify(form, null, 2)}</pre>
-      </div>
     </>
   );
 }

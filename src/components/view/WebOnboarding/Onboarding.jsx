@@ -10,6 +10,7 @@ import DescribeBusiness from "./OnBoardingComponents/DescribeBusiness";
 import OnboardingRole from "./OnBoardingComponents/OnboardingRole";
 import OnboardingProjectDetails from "./OnBoardingComponents/OnboardingProjectDetails";
 import OnboardingProjectOverview from "./OnBoardingComponents/OnboardingProjectOverview";
+import AiEmployees from "./OnBoardingComponents/AiEmployees";
 
 export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -121,6 +122,12 @@ export default function Onboarding() {
       form={form}
       handleChange={handleChange}
       handlePrev={handlePrev}
+      handleNext={handleNext}
+    />,
+    // Ai employee
+    <AiEmployees
+      form={form}
+      handleChange={handleChange}
       handleNext={handleNext}
     />,
   ];
