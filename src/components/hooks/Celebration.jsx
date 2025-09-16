@@ -54,6 +54,15 @@ export default function Celebration() {
           <br />
           You did it!
         </motion.h1>
+        <motion.h1
+          className="text-xl md:text-xl font-extrabold text-white drop-shadow-lg text-center mt-10"
+          initial={{ scale: 0, y: 50 }}
+          animate={{ scale: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 200, damping: 12 }}
+        >
+          Hang on, we will navigate to you success
+     
+        </motion.h1>
 
         {/* Floating sparkles */}
         {[...Array(100)].map((_, i) => {

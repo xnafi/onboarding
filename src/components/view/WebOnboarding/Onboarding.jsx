@@ -49,8 +49,8 @@ export default function Onboarding() {
     if (celebrate) {
       const timer = setTimeout(() => {
         setCelebrate(false);
-        // navigate("/");
-      }, 5000);
+        navigate("/dashboard");
+      }, 6000);
       return () => clearTimeout(timer);
     }
   }, [celebrate, navigate]);
