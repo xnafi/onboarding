@@ -27,11 +27,11 @@ export default function OnboardingModal({ onContinue }) {
   return (
     <div className="mt-10 w-full rounded-t-xl shadow-xl/20 sm:rounded-xl lg:mt-0 from-primary-light flex flex-col bg-gradient-to-b from-20% to-white p-0 sm:min-h-0 sm:w-full sm:max-w-lg md:p-0">
       <div className="bg-blue-500 h-20 rounded-t-md flex flex-col justify-center items-center">
-        <h2 className="font-display text-white mb-2 text-xl font-semibold">
+        <h2 className="font-display text-white mb-2 text-xl font-semibold px-2 text-center">
           Thanks For Choosing Quantum OS For Teams!
         </h2>
       </div>
-      <div className="bg-white pb-8 px-8 pt-4 rounded shadow-lg w-full relative overflow-hidden bg-gradient-to-b from-20% from-[#EEF5FF] ">
+      <div className="bg-white pb-8 px-3 md:px-8 pt-4 rounded shadow-lg w-full relative overflow-hidden bg-gradient-to-b from-20% from-[#EEF5FF] ">
         <h3 className="mb-4 text-lg font-semibold">
          How did you hear about us?
         </h3>
