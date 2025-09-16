@@ -27,7 +27,7 @@ export default function Dashboard() {
 
     console.log("Submitted Data:", formData);
 
-    // ✅ reset form after submit
+    // reset form after submit
     setLoginForm({ email: "", time: "" });
     setSelected(undefined);
   };
@@ -77,7 +77,7 @@ export default function Dashboard() {
                   ? `Selected: ${selected.toLocaleDateString()}`
                   : "Pick a date."
               }
-              disabled={{ before: new Date() }} // ✅ disables past dates
+              disabled={{ before: new Date() }} 
             />
           </div>
 
