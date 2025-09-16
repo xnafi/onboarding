@@ -1,10 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-
-import Stepper from "../Stepper/Stepper";
 import SignUpPage from "../SignUp/SignUpPage";
 import RadioGroupStep from "../ModalComponents/RadioGroupStep";
+import Stepper from "../../re-ui/Stepper/Stepper";
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 3;

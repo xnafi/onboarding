@@ -1,5 +1,5 @@
 import logo from "../../assets/logo.png";
-import Stepper from "../view/Stepper/Stepper";
+
 export default function Navbar() {
   return (
     <nav className="w-full bg-gray-100 shadow-sm relative z-20">

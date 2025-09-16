@@ -9,8 +9,8 @@ export default function DescribeBusiness({
   return (
     <div className="flex flex-col items-center px-4 max-w-lg justify-center mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-center max-w-lg">
-        What does your business do? If there’s a website, please share it
-        with us.
+        What does your business do? If there’s a website, please share it with
+        us.
       </h2>
 
       <textarea
@@ -19,7 +19,7 @@ export default function DescribeBusiness({
         value={form.website}
         onChange={handleChange}
         placeholder="Enter website URL"
-        className="border p-2 w-full max-w-md mb-4 shadow-md rounded-md ring-1 ring-blue-600 focus:ring-2 focus:ring-black outline-none"
+        className="border p-2 w-full max-w-md mb-4 shadow-md rounded-md ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
       />
 
       <div className="flex justify-between mt-4 w-full max-w-md">

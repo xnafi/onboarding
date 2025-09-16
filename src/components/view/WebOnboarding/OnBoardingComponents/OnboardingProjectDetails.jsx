@@ -19,7 +19,7 @@ export default function OnboardingProjectDetails({
         value={form.projectDetails}
         onChange={handleChange}
         placeholder="Enter project details"
-        className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-blue-600 hover:ring-black"
+        className="border p-2 w-full mb-4 shadow-xl/10 rounded-sm ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
       />
       <div className="flex justify-between mt-4 w-full max-w-md">
         <Button

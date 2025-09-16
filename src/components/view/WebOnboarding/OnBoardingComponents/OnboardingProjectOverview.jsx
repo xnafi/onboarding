@@ -82,7 +82,7 @@ export default function OnboardingProjectOverview({
                   {stage.tasks.map((task, idx) => (
                     <li
                       key={idx}
-                      className="flex justify-between items-center border-b pb-1"
+                      className="flex justify-between items-center border-b border-gray-200 pb-1 hover:scale-[1.01] transition-all duration-500"
                     >
                       <label className="flex justify-between items-center w-full cursor-pointer">
                         <input
@@ -93,7 +93,7 @@ export default function OnboardingProjectOverview({
                           onChange={() =>
                             handleTaskSelect(stage.name, task.task)
                           }
-                          className="ml-2"
+                          className="ml-2 h-4 w-4 appearance-none rounded-full border border-gray-400 checked:bg-blue-500 cursor-pointer"
                         />
                         <span className="text-[10px] md:text-sm ">
                           {task.task}
