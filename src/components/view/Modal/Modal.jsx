@@ -24,18 +24,22 @@ const EMPLOYEE_OPTIONS = [
 ];
 
 const ROLE_OPTIONS = [
-  "Individual Contributor",
-  "Manager of Small Team",
-  "Manager of Large Team",
+  "CEO Or Executive",
+  "Business Owner",
   "Director or VP",
-  "CEO or Executive",
+  "Marketing Manager",
+  "Sales Manager",
+  "Manager Of Large Team",
+  "Manager Of Small Team",
+  "Individual Contributor",
 ];
 
-const INTEREST_OPTIONS = [
-  "Ai inbound and outbound receptionist, call center, dispatch, support, sales",
-  "lead generation with automation and ai qualifying",
-  "automate my front and back office workforce",
-  "increase my sales while reducing my overhead",
+const CHALLENGE_OPTIONS = [
+  "Getting quality leads consistently",
+  "Following up with prospects effectively",
+  "Converting leads into paying customers",
+  "Managing my sales process",
+  "Scaling my business operations",
 ];
 
 export default function Modal({ isOpen, onClose }) {
@@ -50,7 +54,7 @@ export default function Modal({ isOpen, onClose }) {
       JSON.parse(localStorage.getItem("onboardingForm")) || {
         employeeCount: "",
         companyRole: "",
-        companyInterest: "",
+        companyChallenge: "",
       }
     );
   });
@@ -90,7 +94,7 @@ export default function Modal({ isOpen, onClose }) {
   const handleClose = useCallback(() => {
     setStep(1);
     setShowLogin(false);
-    setForm({ employeeCount: "", companyRole: "", companyInterest: "" });
+    setForm({ employeeCount: "", companyRole: "", companyChallenge: "" });
     localStorage.removeItem("onboardingForm");
     localStorage.removeItem("onboardingStep");
     onClose?.();
@@ -106,7 +110,7 @@ export default function Modal({ isOpen, onClose }) {
       {
         key: "step1",
         title: "Get started with Quantum OS!",
-        subtitle: "How many employees does your company have?",
+        subtitle: "What size team are you working with?",
         options: EMPLOYEE_OPTIONS,
         name: "employeeCount",
         value: form.employeeCount,
@@ -122,10 +126,10 @@ export default function Modal({ isOpen, onClose }) {
       {
         key: "step3",
         title: "Get started with Quantum OS!",
-        subtitle: "Why are you interested in Quantum OS?",
-        options: INTEREST_OPTIONS,
-        name: "companyInterest",
-        value: form.companyInterest,
+        subtitle: `What’s your biggest challenge right now`,
+        options: CHALLENGE_OPTIONS,
+        name: "companyChallenge",
+        value: form.companyChallenge,
       },
     ],
     [form]
