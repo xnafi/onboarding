@@ -33,6 +33,13 @@ const CHALLENGE_OPTIONS = [
 
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 3;
+  useEffect(() => {
+    if (isOpen) {
+      localStorage.removeItem("onboardingForm");
+      localStorage.removeItem("onboardingStep");
+    }
+  }, [isOpen]);
+
 
   const [step, setStep] = useState(() => {
     return Number(localStorage.getItem("onboardingStep")) || 1;
