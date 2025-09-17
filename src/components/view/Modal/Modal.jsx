@@ -1,17 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  lazy,
-  Suspense,
-} from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Stepper from "../../re-ui/Stepper/Stepper";
 import RadioGroupStep from "../../re-ui/RadioGroupStep";
-
-const SignUpPage = lazy(() => import("../SignUp/SignUpPage"));
+import SignUpPage from "../SignUp/SignUpPage";
 
 const EMPLOYEE_OPTIONS = [
   "Just me",
@@ -29,17 +21,14 @@ const ROLE_OPTIONS = [
   "Director or VP",
   "Marketing Manager",
   "Sales Manager",
-  "Manager Of Large Team",
-  "Manager Of Small Team",
-  "Individual Contributor",
 ];
 
 const CHALLENGE_OPTIONS = [
-  "Getting quality leads consistently",
-  "Following up with prospects effectively",
-  "Converting leads into paying customers",
-  "Managing my sales process",
-  "Scaling my business operations",
+  "Faster Response Times - Speed to Lead and with the best of Sales, Support and Billing",
+  "24/7 Lead Capture & Engagement - Custom Ai managed lead qualifying",
+  "Automated Lead Nurturing - Ai managed and lead management",
+  "Better Insights & Tracking - Full AI Real Time Reports",
+  "More Time to Run Their Business - Automated Front and back Office",
 ];
 
 export default function Modal({ isOpen, onClose }) {
@@ -54,14 +43,14 @@ export default function Modal({ isOpen, onClose }) {
       JSON.parse(localStorage.getItem("onboardingForm")) || {
         employeeCount: "",
         companyRole: "",
-        companyChallenge: "",
+        companyChallenge: [],
       }
     );
   });
 
   const [showLogin, setShowLogin] = useState(false);
 
-  // Debounce save form
+  // Save form to localStorage with debounce
   useEffect(() => {
     const id = setTimeout(() => {
       localStorage.setItem("onboardingForm", JSON.stringify(form));
@@ -74,7 +63,19 @@ export default function Modal({ isOpen, onClose }) {
   }, [step]);
 
   const handleChange = useCallback((e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value, type, checked } = e.target;
+
+    setForm((prev) => {
+      if (type === "checkbox") {
+        const prevArr = prev[name] || [];
+        if (checked) {
+          return { ...prev, [name]: [...prevArr, value] };
+        } else {
+          return { ...prev, [name]: prevArr.filter((v) => v !== value) };
+        }
+      }
+      return { ...prev, [name]: value };
+    });
   }, []);
 
   const handleNext = useCallback(() => {
@@ -94,7 +95,7 @@ export default function Modal({ isOpen, onClose }) {
   const handleClose = useCallback(() => {
     setStep(1);
     setShowLogin(false);
-    setForm({ employeeCount: "", companyRole: "", companyChallenge: "" });
+    setForm({ employeeCount: "", companyRole: "", companyChallenge: [] });
     localStorage.removeItem("onboardingForm");
     localStorage.removeItem("onboardingStep");
     onClose?.();
@@ -114,6 +115,7 @@ export default function Modal({ isOpen, onClose }) {
         options: EMPLOYEE_OPTIONS,
         name: "employeeCount",
         value: form.employeeCount,
+        type: "radio",
       },
       {
         key: "step2",
@@ -122,6 +124,7 @@ export default function Modal({ isOpen, onClose }) {
         options: ROLE_OPTIONS,
         name: "companyRole",
         value: form.companyRole,
+        type: "radio",
       },
       {
         key: "step3",
@@ -130,12 +133,15 @@ export default function Modal({ isOpen, onClose }) {
         options: CHALLENGE_OPTIONS,
         name: "companyChallenge",
         value: form.companyChallenge,
+        type: "checkbox",
       },
     ],
     [form]
   );
 
   if (!isOpen) return null;
+
+  const { key, ...stepProps } = steps[step - 1]; // extract key for React
 
   return (
     <div
@@ -162,13 +168,13 @@ export default function Modal({ isOpen, onClose }) {
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.3 }}
             >
-              <Suspense fallback={<div>Loading...</div>}>
-                <SignUpPage onLogin={handleLoginSuccess} />
-              </Suspense>
+              <SignUpPage onLogin={handleLoginSuccess} />
             </motion.div>
           ) : (
             <>
-              <Stepper step={step} totalSteps={totalSteps} />
+              <div className="mt-6 lg:mt-0">
+                <Stepper step={step} totalSteps={totalSteps} />
+              </div>
               <motion.div
                 key={step}
                 initial={{ opacity: 0, x: 40 }}
@@ -177,7 +183,8 @@ export default function Modal({ isOpen, onClose }) {
                 transition={{ duration: 0.3 }}
               >
                 <RadioGroupStep
-                  {...steps[step - 1]}
+                  key={key}
+                  {...stepProps}
                   onChange={handleChange}
                   onNext={handleNext}
                   onPrev={handlePrev}
