@@ -34,14 +34,12 @@ const CHALLENGE_OPTIONS = [
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 3;
 
-  
   useEffect(() => {
     if (isOpen) {
       localStorage.removeItem("onboardingForm");
       localStorage.removeItem("onboardingStep");
     }
   }, [isOpen]);
-
 
   const [step, setStep] = useState(() => {
     return Number(localStorage.getItem("onboardingStep")) || 1;
@@ -156,13 +154,15 @@ export default function Modal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 px-2 mx-h-[120vh] overflow-x-hidden"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2 sm:px-4"
       onKeyDown={(e) => e.key === "Escape" && handleClose()}
     >
-      <div className="bg-white p-4 lg:p-8 rounded-xl shadow-xl relative max-w-2xl w-full min-h-[85vh]">
+      <div
+        className="bg-white rounded-xl shadow-xl relative w-full max-w-md sm:max-w-lg lg:max-w-2xl p-4 sm:p-6 lg:p-8 min-h-[70vh] max-h-[90vh] overflow-y-auto"
+      >
         <button
           aria-label="Close modal"
-          className="absolute top-1 right-2 cursor-pointer bg-red-500 text-white px-2 rounded-md"
+          className="absolute top-2 right-2 cursor-pointer bg-red-500 text-white px-2 rounded-md text-sm sm:text-base"
           onClick={handleClose}
         >
           ✕
