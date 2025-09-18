@@ -1,29 +1,28 @@
-import { useState } from "react";
 import logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router";
 
-export default function SignUpPage({ onLogin }) {
-  const [loginForm, setLoginForm] = useState({ username: "", password: "" });
-  const [loginError, setLoginError] = useState("");
-
+export default function SignUpPage({ form, handleChange }) {
   const navigate = useNavigate();
 
-  const handleLoginChange = (e) => {
-    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
-  };
-
+  // Handle form submission
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    if (
-      loginForm.username === "forhadkhandev" &&
-      loginForm.password === "123456"
-    ) {
-      setLoginError("");
-      onLogin();
-      navigate("/web-onboarding"); 
-    } else {
-      setLoginError("Invalid credentials. Try forhadkhandev / 123456.");
-    }
+
+    // Save user info to onboarding form
+    const updatedForm = {
+      ...form,
+      userInfo: [
+        {
+          firstName: form.firstName || "",
+          lastName: form.lastName || "",
+          phone: form.phone || "",
+        },
+      ],
+    };
+
+    localStorage.setItem("onboardingForm", JSON.stringify(updatedForm));
+
+    navigate("/web-onboarding");
   };
 
   return (
@@ -31,7 +30,7 @@ export default function SignUpPage({ onLogin }) {
       <div className="w-full max-w-md bg-transparent rounded-lg">
         {/* Logo */}
         <div className="flex h-full max-w-[410px] flex-col gap-y-4">
-          <div className="flex items-center gap-2 mb-auto ">
+          <div className="flex items-center gap-2 mb-auto">
             <img
               src={logo}
               alt="Logo"
@@ -44,17 +43,14 @@ export default function SignUpPage({ onLogin }) {
 
           {/* Title */}
           <h1 className="text-2xl font-bold mb-2">
-            👋 Try Free Proposal Today{" "}
+            👋 Try Free Proposal Today
           </h1>
           <p className="text-gray-500 text-sm mb-6">
-            sign up to continue to QuantumOS.ai
+            Sign up to continue to QuantumOS.ai
           </p>
         </div>
 
-        {/* Social buttons */}
-        <div className="space-y-3"></div>
-
-        {/* Email / Password */}
+        {/* Form */}
         <form className="space-y-4" onSubmit={handleLoginSubmit}>
           <div className="flex space-x-3">
             <div className="flex-1">
@@ -64,8 +60,8 @@ export default function SignUpPage({ onLogin }) {
               <input
                 type="text"
                 name="firstName"
-                value={loginForm.firstName}
-                onChange={handleLoginChange}
+                value={form.firstName || ""}
+                onChange={handleChange}
                 placeholder="First Name"
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
               />
@@ -77,8 +73,8 @@ export default function SignUpPage({ onLogin }) {
               <input
                 type="text"
                 name="lastName"
-                value={loginForm.lastName}
-                onChange={handleLoginChange}
+                value={form.lastName || ""}
+                onChange={handleChange}
                 placeholder="Last Name"
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
               />
@@ -89,56 +85,14 @@ export default function SignUpPage({ onLogin }) {
               Phone Number
             </label>
             <input
-              type="number"
-              name="phone number"
-              value={loginForm.phone}
-              onChange={handleLoginChange}
-              placeholder="phone number"
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
-            />
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center my-6">
-            <hr className="flex-grow border-gray-300" />
-            <span className="mx-2 text-gray-500 text-sm">Or</span>
-            <hr className="flex-grow border-gray-300" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Username
-            </label>
-            <input
               type="text"
-              name="username"
-              value={loginForm.username}
-              onChange={handleLoginChange}
-              placeholder="forhadkhandev"
+              name="phone"
+              value={form.phone || ""}
+              onChange={handleChange}
+              placeholder="Phone number"
               className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
             />
           </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700 flex justify-between">
-              <span>Password</span>
-              <a href="#" className="text-sm text-blue-600 hover:underline">
-                Forgot your password?
-              </a>
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={loginForm.password}
-              onChange={handleLoginChange}
-              placeholder="Enter your password"
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
-            />
-          </div>
-
-          {loginError && (
-            <div className="text-red-500 text-sm mb-2">{loginError}</div>
-          )}
 
           <button
             type="submit"

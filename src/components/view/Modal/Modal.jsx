@@ -32,14 +32,7 @@ const CHALLENGE_OPTIONS = [
 ];
 
 export default function Modal({ isOpen, onClose }) {
-  const totalSteps = 3;
-
-  useEffect(() => {
-    if (isOpen) {
-      localStorage.removeItem("onboardingForm");
-      localStorage.removeItem("onboardingStep");
-    }
-  }, [isOpen]);
+  const totalSteps = 4;
 
   const [step, setStep] = useState(() => {
     return Number(localStorage.getItem("onboardingStep")) || 1;
@@ -51,11 +44,10 @@ export default function Modal({ isOpen, onClose }) {
         employeeCount: "",
         companyRole: "",
         companyChallenge: [],
+        userInfo: [{ firstName: "", lastName: "", phone: "" }],
       }
     );
   });
-
-  const [showLogin, setShowLogin] = useState(false);
 
   // Save form to localStorage with debounce
   useEffect(() => {
@@ -81,18 +73,21 @@ export default function Modal({ isOpen, onClose }) {
           return { ...prev, [name]: prevArr.filter((v) => v !== value) };
         }
       }
+
+      // Handle SignUpPage user info
+      if (["firstName", "lastName", "phone"].includes(name)) {
+        return {
+          ...prev,
+          userInfo: [{ ...prev.userInfo[0], [name]: value }],
+        };
+      }
+
       return { ...prev, [name]: value };
     });
   }, []);
 
   const handleNext = useCallback(() => {
-    setStep((prev) => {
-      if (prev === totalSteps) {
-        setShowLogin(true);
-        return prev;
-      }
-      return prev + 1;
-    });
+    setStep((prev) => Math.min(prev + 1, totalSteps));
   }, []);
 
   const handlePrev = useCallback(() => {
@@ -101,17 +96,16 @@ export default function Modal({ isOpen, onClose }) {
 
   const handleClose = useCallback(() => {
     setStep(1);
-    setShowLogin(false);
-    setForm({ employeeCount: "", companyRole: "", companyChallenge: [] });
+    setForm({
+      employeeCount: "",
+      companyRole: "",
+      companyChallenge: [],
+      userInfo: [{ firstName: "", lastName: "", phone: "" }],
+    });
     localStorage.removeItem("onboardingForm");
     localStorage.removeItem("onboardingStep");
     onClose?.();
   }, [onClose]);
-
-  const handleLoginSuccess = useCallback(() => {
-    setShowLogin(false);
-    setStep(totalSteps);
-  }, []);
 
   const steps = useMemo(
     () => [
@@ -142,63 +136,63 @@ export default function Modal({ isOpen, onClose }) {
         value: form.companyChallenge,
         type: "checkbox",
       },
+      {
+        key: "step4",
+        component: (
+          <SignUpPage
+            form={{ ...form.userInfo[0], ...form }}
+            handleChange={handleChange}
+          />
+        ),
+      },
     ],
-    [form]
+    [form, handleChange]
   );
 
   if (!isOpen) return null;
 
-  const { key, ...stepProps } = steps[step - 1]; // extract key for React
+  const currentStep = steps[step - 1];
 
   return (
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2 sm:px-4"
       onKeyDown={(e) => e.key === "Escape" && handleClose()}
     >
-      <div className="bg-white p-4 lg:p-8 rounded-xl shadow-xl relative max-w-2xl w-full min-h-[85vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-xl relative w-full max-w-md sm:max-w-lg lg:max-w-2xl p-4 sm:p-6 lg:p-8 min-h-[70vh] max-h-[90vh] overflow-y-auto">
         <button
           aria-label="Close modal"
-          className="absolute top-1 right-2 cursor-pointer bg-red-500 text-white px-2 rounded-md"
+          className="absolute top-2 right-2 cursor-pointer bg-red-500 text-white px-2 rounded-md text-sm sm:text-base"
           onClick={handleClose}
         >
           ✕
         </button>
 
         <AnimatePresence mode="wait">
-          {showLogin ? (
+          <>
+            <div className="mt-6 lg:mt-0">
+              <Stepper step={step} totalSteps={totalSteps} />
+            </div>
             <motion.div
-              key="login"
+              key={currentStep.key}
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.3 }}
             >
-              <SignUpPage onLogin={handleLoginSuccess} />
-            </motion.div>
-          ) : (
-            <>
-              <div className="mt-6 lg:mt-0">
-                <Stepper step={step} totalSteps={totalSteps} />
-              </div>
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
-              >
+              {currentStep.component ? (
+                currentStep.component
+              ) : (
                 <RadioGroupStep
-                  key={key}
-                  {...stepProps}
+                  {...currentStep}
                   onChange={handleChange}
                   onNext={handleNext}
                   onPrev={handlePrev}
                 />
-              </motion.div>
-            </>
-          )}
+              )}
+            </motion.div>
+          </>
         </AnimatePresence>
       </div>
     </div>

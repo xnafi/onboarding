@@ -1,4 +1,3 @@
-"use client";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import Navbar from "../../shared/Navbar";
 // eslint-disable-next-line no-unused-vars

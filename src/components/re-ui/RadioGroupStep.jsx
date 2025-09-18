@@ -9,7 +9,7 @@ export default function RadioGroupStep({
   onChange,
   onNext,
   onPrev,
-  type = "radio", // "radio" or "checkbox"
+  type = "radio",
   showPrev = true,
   nextLabel = "Next",
   prevLabel = "Back",

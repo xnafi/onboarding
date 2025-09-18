@@ -1,40 +1,109 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../../shared/Navbar";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import Button from "../../re-ui/Button";
 
+const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data";
+
 export default function Dashboard() {
   const [selected, setSelected] = useState();
   const [loginForm, setLoginForm] = useState({
     email: "",
-    time: "",
+    meeting_time: "",
   });
 
-  // handle input change
+  // Load saved data from localStorage
+  useEffect(() => {
+    const savedForm = JSON.parse(localStorage.getItem("onboardingForm")) || {};
+    const savedOnboardingData =
+      JSON.parse(localStorage.getItem("onboardingData")) || {};
+
+    // Populate email, meeting_time, and date
+    if (savedForm?.userInfo?.[0]) {
+      const { email, meeting_date, meeting_time } = savedForm.userInfo[0];
+      setLoginForm({
+        email: email || "",
+        meeting_time: meeting_time || "",
+      });
+      if (meeting_date) setSelected(new Date(meeting_date));
+    }
+
+    // Merge onboardingData if needed
+    localStorage.setItem(
+      "combinedOnboardingData",
+      JSON.stringify({ ...savedForm, ...savedOnboardingData })
+    );
+  }, []);
+
+  // Handle input change
   const handleLoginChange = (e) => {
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
   };
 
-  // handle submit
+  // Send data to webhook
+  const sendDataToWebhook = async (data) => {
+    try {
+      // Save to localStorage array
+      const existingData =
+        JSON.parse(localStorage.getItem("onboarding_form_user_data")) || [];
+      existingData.push(data);
+      localStorage.setItem(
+        "onboarding_form_user_data",
+        JSON.stringify(existingData)
+      );
+
+      // Send to webhook
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(existingData),
+      });
+
+      if (response.ok) console.log("Onboarding data sent successfully!");
+      else console.error("Failed to send onboarding data");
+    } catch (err) {
+      console.error("Error sending onboarding data:", err);
+    }
+  };
+
+  // Handle submit
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
+    // Combine all data: modal form + onboarding steps + dashboard
+    const onboardingForm = JSON.parse(
+      localStorage.getItem("onboardingForm")
+    ) || {
+      employeeCount: "",
+      companyRole: "",
+      companyChallenge: [],
+      userInfo: [{}],
+    };
+    const onboardingData =
+      JSON.parse(localStorage.getItem("onboardingData")) || {};
+
     const formData = {
+      ...onboardingForm.userInfo[0],
+      ...onboardingData,
       ...loginForm,
-      date: selected ? selected.toLocaleDateString() : null,
+      meeting_date: selected ? selected.toISOString() : null,
     };
 
-    console.log("Submitted Data:", formData);
+    // Save combined data to localStorage
+    onboardingForm.userInfo[0] = formData;
+    localStorage.setItem("onboardingForm", JSON.stringify(onboardingForm));
 
-    // reset form after submit
-    setLoginForm({ email: "", time: "" });
+    // Send everything to webhook
+    sendDataToWebhook(formData);
+
+    // Reset form if needed
+    setLoginForm({ email: "", meeting_time: "" });
     setSelected(undefined);
   };
 
   return (
     <div className="relative h-full bg-gray-50 flex flex-col">
-      {/* Navbar */}
       <Navbar />
 
       <div className="flex flex-col justify-center items-center h-full max-w-xl mx-auto mt-20 mb-10 overflow-x-hidden">
@@ -77,7 +146,7 @@ export default function Dashboard() {
                   ? `Selected: ${selected.toLocaleDateString()}`
                   : "Pick a date."
               }
-              disabled={{ before: new Date() }} 
+              disabled={{ before: new Date() }}
             />
           </div>
 
@@ -88,8 +157,8 @@ export default function Dashboard() {
             </label>
             <input
               type="time"
-              name="time"
-              value={loginForm.time}
+              name="meeting_time"
+              value={loginForm.meeting_time}
               onChange={handleLoginChange}
               className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 sm:text-sm ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
               required
