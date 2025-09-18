@@ -103,35 +103,184 @@ export default function Onboarding() {
       />,
       <OnboardingProjectOverview
         projectTitle="Here’s your project!"
-        projectDescription="In Quantum Ai, projects are divided into Stages..."
-        companyName="Acme Plumber"
+        projectDescription="In QuantumOS, projects are divided into Stages based on the type of services you choose. Each stage has tasks handled by specialized AI roles."
+        companyName="Acme Business"
         stages={[
           {
-            name: "Design and Prototype Development",
+            name: "AI Workforce Setup",
             color: "#4CAF50",
             tasks: [
-              { task: "Conduct market research", role: "Product Designer" },
               {
-                task: "Create initial product designs",
-                role: "Product Designer",
+                task: "Automate front office tasks (calls, emails, chat)",
+                role: "AI Receptionist",
               },
-              { task: "Develop prototypes", role: "Manufacturing Manager" },
+              {
+                task: "Handle social media posting and engagement",
+                role: "AI Social Media Manager",
+              },
+              {
+                task: "Capture and qualify leads from your website",
+                role: "AI Sales Assistant",
+              },
             ],
           },
           {
-            name: "Testing and Quality Assurance",
+            name: "Business Workflow Automation",
+            color: "#FF9800",
+            tasks: [
+              {
+                task: "Analyze business processes and bottlenecks",
+                role: "Automation Strategist",
+              },
+              {
+                task: "Design workflow automation blueprint",
+                role: "Workflow Designer",
+              },
+              {
+                task: "Implement no-code integrations (Zapier/Make)",
+                role: "Automation Engineer",
+              },
+            ],
+          },
+          {
+            name: "Sales & Marketing Automation",
+            color: "#2196F3",
+            tasks: [
+              {
+                task: "Create content calendars and schedule posts",
+                role: "Marketing AI",
+              },
+              {
+                task: "Send follow-up emails based on lead behavior",
+                role: "Sales Outreach AI",
+              },
+              {
+                task: "Segment audiences for campaigns",
+                role: "CRM Specialist AI",
+              },
+            ],
+          },
+          {
+            name: "Customer Support Automation",
             color: "#E91E63",
             tasks: [
-              { task: "Perform functionality tests", role: "QA Specialist" },
-              { task: "Conduct safety assessments", role: "QA Specialist" },
+              {
+                task: "Handle FAQs and support tickets",
+                role: "AI Support Agent",
+              },
+              {
+                task: "Escalate complex issues to human agents",
+                role: "Support Coordinator AI",
+              },
+              {
+                task: "Provide 24/7 chat and email responses",
+                role: "AI Virtual Agent",
+              },
             ],
           },
           {
-            name: "Manufacturing and Distribution",
+            name: "Back Office Operations Automation",
+            color: "#9C27B0",
+            tasks: [
+              {
+                task: "Automate scheduling and calendar management",
+                role: "Scheduling Assistant AI",
+              },
+              {
+                task: "Handle data entry and form processing",
+                role: "Data Entry AI",
+              },
+              {
+                task: "Prepare recurring reports",
+                role: "Reporting Analyst AI",
+              },
+            ],
+          },
+          {
+            name: "Enterprise Solutions",
             color: "#3F51B5",
             tasks: [
-              { task: "Prepare manufacturing plans", role: "Manager" },
-              { task: "Coordinate with suppliers", role: "Manager" },
+              {
+                task: "Automate inventory and supply chain workflows",
+                role: "Operations AI",
+              },
+              {
+                task: "Optimize quality control and compliance",
+                role: "QA Automation AI",
+              },
+              {
+                task: "Digitize financial reporting and approvals",
+                role: "Finance Automation AI",
+              },
+            ],
+          },
+          {
+            name: "Pocket Boss (Personal AI Assistant)",
+            color: "#CDDC39",
+            tasks: [
+              {
+                task: "Manage schedules and appointments",
+                role: "AI Executive Assistant",
+              },
+              {
+                task: "Send reminders and follow-ups",
+                role: "AI Communications Assistant",
+              },
+              {
+                task: "Coordinate small team workflows",
+                role: "AI Project Coordinator",
+              },
+            ],
+          },
+          {
+            name: "AirQ Edge (Hardware + Edge AI)",
+            color: "#00BCD4",
+            tasks: [
+              {
+                task: "Deploy edge AI device on site",
+                role: "AI Systems Engineer",
+              },
+              {
+                task: "Configure real-time data pipelines",
+                role: "Edge AI Developer",
+              },
+              {
+                task: "Ensure on-device data security",
+                role: "Security Specialist",
+              },
+            ],
+          },
+          {
+            name: "Data & Analytics Automation",
+            color: "#FF5722",
+            tasks: [
+              {
+                task: "Track KPIs across business systems",
+                role: "Analytics AI",
+              },
+              { task: "Build automated dashboards", role: "Data Analyst AI" },
+              {
+                task: "Generate weekly/monthly performance reports",
+                role: "Reporting AI",
+              },
+            ],
+          },
+          {
+            name: "Ongoing Optimization & Support",
+            color: "#009688",
+            tasks: [
+              {
+                task: "Monitor performance and ROI metrics",
+                role: "AI Performance Analyst",
+              },
+              {
+                task: "Refine workflows based on feedback",
+                role: "AI Process Manager",
+              },
+              {
+                task: "Provide ongoing updates and support",
+                role: "AI Support Specialist",
+              },
             ],
           },
         ]}

@@ -27,22 +27,24 @@ export default function OnboardingProjectOverview({
         name: stageName,
         value: updatedTasks,
       },
-    });     
+    });
   };
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 max-w-5xl w-full mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-8 p-1 md:p-6 max-w-6xl w-full mx-auto">
         {/* Left Side: Project Overview */}
         <div className="flex flex-col items-start justify-center">
           <h2 className="text-2xl font-bold mb-2">{projectTitle}</h2>
-          <p className="text-gray-600 mb-4 text-left lg:text-base">{projectDescription}</p>
+          <p className="text-gray-600 mb-4 text-left lg:text-base">
+            {projectDescription}
+          </p>
 
-          <div className="space-y-2 mb-6 flex flex-col">
+          <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4">
             {stages.map((stage) => (
               <span
                 key={stage.name}
-                className="inline-block px-3 py-1 rounded-full text-sm text-white"
+                className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg"
                 style={{ backgroundColor: stage.color }}
               >
                 {stage.name}
@@ -50,17 +52,10 @@ export default function OnboardingProjectOverview({
             ))}
           </div>
 
-          <p className="text-gray-500 mb-6 text-sm text-start">
+          <p className="text-gray-500 mb-2 text-sm text-start">
             Stages help break your project into milestones so everyone can keep
             track of the status.
           </p>
-
-          <Button
-            onClick={handleNext}
-            className="bg-blue-500 text-white px-6 py-2 rounded self-end hidden md:block"
-          >
-            Continue
-          </Button>
         </div>
 
         {/* Right Side: Acme Plumber - multiple select */}
@@ -69,7 +64,7 @@ export default function OnboardingProjectOverview({
             {companyName}
           </h3>
 
-          <div className="space-y-6 text-left">
+          <div className="space-y-6 text-left max-w-2xl flex flex-col">
             {stages.map((stage) => (
               <div key={stage.name}>
                 <h4
@@ -78,26 +73,29 @@ export default function OnboardingProjectOverview({
                 >
                   {stage.name}
                 </h4>
-                <ul className="space-y-2">
+                <ul className="space-y-2 text-right">
                   {stage.tasks.map((task, idx) => (
                     <li
                       key={idx}
                       className="flex justify-between items-center border-b border-gray-200 pb-1 hover:scale-[1.01] transition-all duration-500"
                     >
-                      <label className="flex justify-between items-center w-full cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={
-                            form[stage.name]?.includes(task.task) || false
-                          }
-                          onChange={() =>
-                            handleTaskSelect(stage.name, task.task)
-                          }
-                          className="ml-2 h-4 w-4 appearance-none rounded-full border border-gray-400 checked:bg-blue-500 cursor-pointer"
-                        />
-                        <span className="text-[10px] md:text-sm ">
-                          {task.task}
-                        </span>
+                      <label className="flex justify-between items-center w-full cursor-pointer space-x-2">
+                        <div className="flex justify-start items-start text-start space-x-2">
+                          <input
+                            type="checkbox"
+                            checked={
+                              form[stage.name]?.includes(task.task) || false
+                            }
+                            onChange={() =>
+                              handleTaskSelect(stage.name, task.task)
+                            }
+                            className="ml-2 h-4 w-4 appearance-none rounded-full border border-gray-400 checked:bg-blue-500 cursor-pointer"
+                          />
+                          <span className="text-[10px] md:text-sm">
+                            {task.task}
+                          </span>
+                        </div>
+
                         <span className="bg-gray-100 px-2 py-1 rounded text-[10px] md:text-sm ml-2">
                           {task.role}
                         </span>
@@ -112,7 +110,7 @@ export default function OnboardingProjectOverview({
 
         <Button
           onClick={handleNext}
-          className="bg-blue-500 text-white px-6 py-2 rounded self-end block md:hidden"
+          className="bg-blue-500 text-white px-6 py-2 rounded self-start w-1/6"
         >
           Continue
         </Button>

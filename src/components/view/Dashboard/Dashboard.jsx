@@ -29,7 +29,7 @@ export default function Dashboard() {
       if (meeting_date) setSelected(new Date(meeting_date));
     }
 
-    // Merge onboardingData if needed
+    // Merge onboardingData
     localStorage.setItem(
       "combinedOnboardingData",
       JSON.stringify({ ...savedForm, ...savedOnboardingData })
