@@ -4,7 +4,6 @@ export default function OnboardingProjectOverview({
   projectTitle,
   projectDescription,
   stages,
-  companyName,
   form,
   handleChange,
   handleNext,
@@ -61,7 +60,7 @@ export default function OnboardingProjectOverview({
         {/* Right Side: Acme Plumber - multiple select */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-left">
-            {companyName}
+         Get Connected
           </h3>
 
           <div className="space-y-6 text-left max-w-2xl flex flex-col">

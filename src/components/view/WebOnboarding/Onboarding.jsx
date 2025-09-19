@@ -233,24 +233,6 @@ export default function Onboarding() {
             ],
           },
           {
-            name: "AirQ Edge (Hardware + Edge AI)",
-            color: "#00BCD4",
-            tasks: [
-              {
-                task: "Deploy edge AI device on site",
-                role: "AI Systems Engineer",
-              },
-              {
-                task: "Configure real-time data pipelines",
-                role: "Edge AI Developer",
-              },
-              {
-                task: "Ensure on-device data security",
-                role: "Security Specialist",
-              },
-            ],
-          },
-          {
             name: "Data & Analytics Automation",
             color: "#FF5722",
             tasks: [
