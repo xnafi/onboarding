@@ -109,7 +109,7 @@ export default function OnboardingProjectOverview({
 
         <Button
           onClick={handleNext}
-          className="bg-blue-500 text-white px-6 py-2 rounded self-start w-1/6"
+          className="bg-blue-500 text-white px-6 py-2 rounded self-start w-1/2 lg:w-1/6 mb-5"
         >
           Continue
         </Button>

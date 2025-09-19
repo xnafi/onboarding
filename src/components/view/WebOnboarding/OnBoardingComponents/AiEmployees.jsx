@@ -88,10 +88,10 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
         Continue
       </Button>
       {/* Display collected form data */}
-      <div className="mt-4 text-sm text-gray-600">
+      {/* <div className="mt-4 text-sm text-gray-600">
         <strong>Collected Data:</strong>
         <pre>{JSON.stringify(form, null, 2)}</pre>
-      </div>
+      </div> */}
     </div>
   );
 }
