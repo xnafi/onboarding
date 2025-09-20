@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import Navbar from "../../shared/Navbar";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router";
@@ -243,8 +242,6 @@ export default function Onboarding() {
 
   return (
     <div className="relative min-h-screen flex flex-col overflow-hidden">
-      <Navbar />
-
       {/* Modal */}
       {isOpen && (
         <div
