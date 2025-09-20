@@ -29,7 +29,7 @@ export default function RadioGroupStep({
           return (
             <label
               key={opt}
-              className="flex items-center gap-3 cursor-pointer px-3 py-2 rounded-md transition-all"
+              className="flex items-center gap-3 cursor-pointer px-1 md:px-3 py-2 rounded-md transition-all"
             >
               {/* Hidden input for accessibility */}
               <input
