@@ -33,8 +33,8 @@ export default function OnboardingProjectOverview({
 
   // Group stages into chunks of 3
   const stageGroups = [];
-  for (let i = 0; i < stages.length; i += 3) {
-    stageGroups.push(stages.slice(i, i + 3));
+  for (let i = 0; i < stages.length; i += 2) {
+    stageGroups.push(stages.slice(i, i + 2));
   }
 
   const handleContinue = () => {
@@ -54,19 +54,19 @@ export default function OnboardingProjectOverview({
     <div className="flex flex-col gap-8 p-1 md:p-6 max-w-6xl w-full mx-auto">
       {/* Section 1: Project Info */}
       <div className="flex flex-col items-start justify-center">
-        <h2 className="text-2xl font-bold mb-2">{projectTitle}</h2>
+        <h2 className="text-3xl lg:text-5xl font-bold mb-2">{projectTitle}</h2>
         <p className="text-gray-600 mb-4 text-left lg:text-base">
           {projectDescription}
         </p>
 
-        <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4">
+        <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4 place-items-center justify-start items-start">
           {stages.map((stage) => (
             <span
               key={stage.name}
-              className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg"
+              className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg h-10 w-full"
               style={{ backgroundColor: stage.color }}
             >
-              {stage.name}
+              {stage.name.slice(0, 25)}..
             </span>
           ))}
         </div>
@@ -79,7 +79,12 @@ export default function OnboardingProjectOverview({
 
       {/* Section 2: Stage Group */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold mb-4 text-left">Get Connected</h3>
+        <h3 className="text-2xl lg:text-3xl font-semibold mb-4 text-left">
+          Business Automation Solutions - Select Your Priorities
+        </h3>
+        <p className="text-sm lg:text-base font-semibold mb-4 text-left">
+          Choose the automation areas most important to your business growth:
+        </p>
 
         {/* Animate entire page group */}
         <AnimatePresence mode="wait">
@@ -94,7 +99,7 @@ export default function OnboardingProjectOverview({
             {stageGroups[stagePage].map((stage) => (
               <motion.div key={stage.name} layout className="mb-4">
                 <h4
-                  className="font-semibold mb-2 text-lg"
+                  className="font-semibold mb-2 text-lg lg:text-xl text-left"
                   style={{ color: stage.color }}
                 >
                   {stage.name}

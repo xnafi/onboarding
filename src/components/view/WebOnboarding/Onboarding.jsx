@@ -107,161 +107,118 @@ export default function Onboarding() {
         companyName="Acme Business"
         stages={[
           {
-            name: "AI Workforce Setup",
+            name: "🎯 Lead Capture & Sales Growth",
             color: "#4CAF50",
             tasks: [
               {
-                task: "Automate front office tasks (calls, emails, chat)",
-                role: "AI Receptionist",
+                task: " Smart Lead Management - Auto-capture, score & route leads from all sources",
+                role: "Ai Contact Manager",
               },
               {
-                task: "Handle social media posting and engagement",
-                role: "AI Social Media Manager",
+                task: "Sales Pipeline Automation - Automate deal progression, approvals & follow-ups",
+                role: "Ai Marketing Planner",
               },
               {
-                task: "Capture and qualify leads from your website",
-                role: "AI Sales Assistant",
+                task: "Lead Scoring & Handoffs - Predictive scoring with automated sales notifications ",
+                role: "Ai Lead Insights Specialist",
               },
             ],
           },
           {
-            name: "Business Workflow Automation",
+            name: "📱 Marketing & Social MediaMarketing & Social Media",
             color: "#FF9800",
             tasks: [
               {
-                task: "Analyze business processes and bottlenecks",
-                role: "Automation Strategist",
+                task: "Social Media Management - Schedule posts, automate engagement & track ROI",
+                role: "Ai Social Media Manager",
               },
               {
-                task: "Design workflow automation blueprint",
-                role: "Workflow Designer",
+                task: "Audience Segmentation - Dynamic lists based on behavior & demographics",
+                role: "Ai Lead Gen Specialist",
               },
               {
-                task: "Implement no-code integrations (Zapier/Make)",
-                role: "Automation Engineer",
+                task: "Content Calendar Automation - Automated publishing with performance tracking",
+                role: "Ai Social Media Manager",
+              },
+              {
+                task: "Contact and Lead Campaign Development - Multi-touch point tracking with ROI analysis",
+                role: "Ai PPC Analyst",
               },
             ],
           },
           {
-            name: "Sales & Marketing Automation",
+            name: "💬 Customer Support Excellence",
             color: "#2196F3",
             tasks: [
               {
-                task: "Create content calendars and schedule posts",
-                role: "Marketing AI",
+                task: " AI Chatbot & Self-Service - 24/7 handling Inbound and outbound calls and messages",
+                role: "Ai Receptionist",
               },
               {
-                task: "Send follow-up emails based on lead behavior",
-                role: "Sales Outreach AI",
+                task: "Smart Ticket Routing - Auto-categorize by urgency, customer tier & issue type",
+                role: "Ai Customer Support",
               },
               {
-                task: "Segment audiences for campaigns",
-                role: "CRM Specialist AI",
+                task: "Omni-Channel Management - Unified conversations across all communication channels",
+                role: "Ai CRM Manage",
               },
             ],
           },
           {
-            name: "Customer Support Automation",
+            name: "🏢 Back Office Operations",
             color: "#E91E63",
             tasks: [
               {
-                task: "Handle FAQs and support tickets",
-                role: "AI Support Agent",
+                task: "Document Processing - OCR data extraction with automated approval workflows",
+                role: "Ai Doc Controller",
               },
               {
-                task: "Escalate complex issues to human agents",
-                role: "Support Coordinator AI",
+                task: "Financial Automation - Invoice generation, payment processing & reporting",
+                role: "Ai Bookkeeper",
               },
               {
-                task: "Provide 24/7 chat and email responses",
-                role: "AI Virtual Agent",
+                task: "HR & Employee Management - Onboarding, scheduling & performance tracking",
+                role: "Ai Human Resource Manager",
               },
             ],
           },
           {
-            name: "Back Office Operations Automation",
+            name: "🤖 Personal AI Assistant / with (Pocket Boss) with Alli your AI Co-CEO",
             color: "#9C27B0",
             tasks: [
               {
-                task: "Automate scheduling and calendar management",
+                task: "All Workflows Pre-built - Full Business Automation",
                 role: "Scheduling Assistant AI",
               },
               {
-                task: "Handle data entry and form processing",
+                task: "Smart Calendar Management - Multi-calendar coordination with conflict resolution",
                 role: "Data Entry AI",
               },
               {
-                task: "Prepare recurring reports",
+                task: "Automated Reminders - Task deadlines, client check-ins & payment notifications",
+                role: "Reporting Analyst AI",
+              },
+              {
+                task: "Executive Dashboard - Unified interface with mobile accessibility",
                 role: "Reporting Analyst AI",
               },
             ],
           },
           {
-            name: "Enterprise Solutions",
+            name: "📊 Data & Analytics Intelligence",
             color: "#3F51B5",
             tasks: [
               {
-                task: "Automate inventory and supply chain workflows",
-                role: "Operations AI",
+                task: " Real-Time KPI Tracking - Multi-system integration with automated alerts",
+                role: "",
               },
               {
-                task: "Optimize quality control and compliance",
-                role: "QA Automation AI",
+                task: "Automated Reporting - Scheduled reports with predictive insights",
+                role: "",
               },
               {
-                task: "Digitize financial reporting and approvals",
-                role: "Finance Automation AI",
-              },
-            ],
-          },
-          {
-            name: "Pocket Boss (Personal AI Assistant)",
-            color: "#CDDC39",
-            tasks: [
-              {
-                task: "Manage schedules and appointments",
-                role: "AI Executive Assistant",
-              },
-              {
-                task: "Send reminders and follow-ups",
-                role: "AI Communications Assistant",
-              },
-              {
-                task: "Coordinate small team workflows",
-                role: "AI Project Coordinator",
-              },
-            ],
-          },
-          {
-            name: "Data & Analytics Automation",
-            color: "#FF5722",
-            tasks: [
-              {
-                task: "Track KPIs across business systems",
-                role: "Analytics AI",
-              },
-              { task: "Build automated dashboards", role: "Data Analyst AI" },
-              {
-                task: "Generate weekly/monthly performance reports",
-                role: "Reporting AI",
-              },
-            ],
-          },
-          {
-            name: "Ongoing Optimization & Support",
-            color: "#009688",
-            tasks: [
-              {
-                task: "Monitor performance and ROI metrics",
-                role: "AI Performance Analyst",
-              },
-              {
-                task: "Refine workflows based on feedback",
-                role: "AI Process Manager",
-              },
-              {
-                task: "Provide ongoing updates and support",
-                role: "AI Support Specialist",
+                task: "Advanced Analytics - Predictive modeling, anomaly detection & ROI calculations",
+                role: "",
               },
             ],
           },
