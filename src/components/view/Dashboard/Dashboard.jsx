@@ -4,7 +4,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Button from "../../re-ui/Button";
 
-const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data/ujerhue";
+const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data";
 
 export default function Dashboard() {
   const [selected, setSelected] = useState(new Date());
