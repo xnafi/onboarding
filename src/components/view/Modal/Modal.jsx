@@ -34,9 +34,9 @@ const CHALLENGE_OPTIONS = [
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 4;
 
-  const [step, setStep] = useState(() => {
-    return Number(localStorage.getItem("onboardingStep")) || 1;
-  });
+  const [step, setStep] = useState(
+    () => Number(localStorage.getItem("onboardingStep")) || 1
+  );
 
   const [form, setForm] = useState(() => {
     return (
@@ -74,7 +74,6 @@ export default function Modal({ isOpen, onClose }) {
         }
       }
 
-      // Handle SignUpPage user info
       if (["firstName", "lastName", "phone"].includes(name)) {
         return {
           ...prev,
@@ -130,7 +129,7 @@ export default function Modal({ isOpen, onClose }) {
       {
         key: "step3",
         title: "Get started with Quantum OS!",
-        subtitle: `What’s your biggest challenge right now`,
+        subtitle: "What’s your biggest challenge right now",
         options: CHALLENGE_OPTIONS,
         name: "companyChallenge",
         value: form.companyChallenge,
@@ -152,6 +151,7 @@ export default function Modal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const currentStep = steps[step - 1];
+  const { key, component, ...stepProps } = currentStep; // Extract key
 
   return (
     <div
@@ -169,30 +169,29 @@ export default function Modal({ isOpen, onClose }) {
           ✕
         </button>
 
+        <div className="mt-6 lg:mt-0">
+          <Stepper step={step} totalSteps={totalSteps} />
+        </div>
+
         <AnimatePresence mode="wait">
-          <>
-            <div className="mt-6 lg:mt-0">
-              <Stepper step={step} totalSteps={totalSteps} />
-            </div>
-            <motion.div
-              key={currentStep.key}
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.3 }}
-            >
-              {currentStep.component ? (
-                currentStep.component
-              ) : (
-                <RadioGroupStep
-                  {...currentStep}
-                  onChange={handleChange}
-                  onNext={handleNext}
-                  onPrev={handlePrev}
-                />
-              )}
-            </motion.div>
-          </>
+          <motion.div
+            key={key}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.3 }}
+          >
+            {component ? (
+              component
+            ) : (
+              <RadioGroupStep
+                {...stepProps} // key removed from props
+                onChange={handleChange}
+                onNext={handleNext}
+                onPrev={handlePrev}
+              />
+            )}
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>

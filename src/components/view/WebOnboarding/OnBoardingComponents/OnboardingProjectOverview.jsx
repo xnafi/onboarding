@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import Button from "../../../re-ui/Button";
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function OnboardingProjectOverview({
   projectTitle,
@@ -8,78 +11,102 @@ export default function OnboardingProjectOverview({
   handleChange,
   handleNext,
 }) {
-  // Handle multiple task selection for Acme Plumber side
+  const [stagePage, setStagePage] = useState(0); // current 3-stage group
+
+  // Handle multiple task selection
   const handleTaskSelect = (stageName, taskName) => {
     const selectedTasks = form[stageName] || [];
+    const updatedTasks = selectedTasks.includes(taskName)
+      ? selectedTasks.filter((t) => t !== taskName)
+      : [...selectedTasks, taskName];
 
-    let updatedTasks;
-    if (selectedTasks.includes(taskName)) {
-      // remove if already selected
-      updatedTasks = selectedTasks.filter((t) => t !== taskName);
+    const updatedForm = { ...form, [stageName]: updatedTasks };
+
+    handleChange({ target: { name: stageName, value: updatedTasks } });
+    localStorage.setItem("onboardingData", JSON.stringify(updatedForm));
+  };
+
+  // Persist whenever form changes
+  useEffect(() => {
+    localStorage.setItem("onboardingData", JSON.stringify(form));
+  }, [form]);
+
+  // Group stages into chunks of 3
+  const stageGroups = [];
+  for (let i = 0; i < stages.length; i += 3) {
+    stageGroups.push(stages.slice(i, i + 3));
+  }
+
+  const handleContinue = () => {
+    if (stagePage === stageGroups.length - 1) {
+      localStorage.setItem("onboardingData", JSON.stringify(form));
+      handleNext();
     } else {
-      // add new task
-      updatedTasks = [...selectedTasks, taskName];
+      setStagePage((prev) => prev + 1);
     }
+  };
 
-    handleChange({
-      target: {
-        name: stageName,
-        value: updatedTasks,
-      },
-    });
+  const handleBack = () => {
+    if (stagePage > 0) setStagePage((prev) => prev - 1);
   };
 
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-8 p-1 md:p-6 max-w-6xl w-full mx-auto">
-        {/* Left Side: Project Overview */}
-        <div className="flex flex-col items-start justify-center">
-          <h2 className="text-2xl font-bold mb-2">{projectTitle}</h2>
-          <p className="text-gray-600 mb-4 text-left lg:text-base">
-            {projectDescription}
-          </p>
+    <div className="flex flex-col gap-8 p-1 md:p-6 max-w-6xl w-full mx-auto">
+      {/* Section 1: Project Info */}
+      <div className="flex flex-col items-start justify-center">
+        <h2 className="text-2xl font-bold mb-2">{projectTitle}</h2>
+        <p className="text-gray-600 mb-4 text-left lg:text-base">
+          {projectDescription}
+        </p>
 
-          <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4">
-            {stages.map((stage) => (
-              <span
-                key={stage.name}
-                className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg"
-                style={{ backgroundColor: stage.color }}
-              >
-                {stage.name}
-              </span>
-            ))}
-          </div>
-
-          <p className="text-gray-500 mb-2 text-sm text-start">
-            Stages help break your project into milestones so everyone can keep
-            track of the status.
-          </p>
+        <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4">
+          {stages.map((stage) => (
+            <span
+              key={stage.name}
+              className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg"
+              style={{ backgroundColor: stage.color }}
+            >
+              {stage.name}
+            </span>
+          ))}
         </div>
 
-        {/* Right Side: Acme Plumber - multiple select */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4 text-left">
-         Get Connected
-          </h3>
+        <p className="text-gray-500 mb-2 text-sm text-start">
+          Stages help break your project into milestones so everyone can keep
+          track of the status.
+        </p>
+      </div>
 
-          <div className="space-y-6 text-left max-w-2xl flex flex-col">
-            {stages.map((stage) => (
-              <div key={stage.name}>
+      {/* Section 2: Stage Group */}
+      <div className="space-y-6">
+        <h3 className="text-xl font-semibold mb-4 text-left">Get Connected</h3>
+
+        {/* Animate entire page group */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={stagePage}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.3 }}
+            layout
+          >
+            {stageGroups[stagePage].map((stage) => (
+              <motion.div key={stage.name} layout className="mb-4">
                 <h4
                   className="font-semibold mb-2 text-lg"
                   style={{ color: stage.color }}
                 >
                   {stage.name}
                 </h4>
-                <ul className="space-y-2 text-right">
+                <ul className="space-y-2">
                   {stage.tasks.map((task, idx) => (
                     <li
                       key={idx}
                       className="flex justify-between items-center border-b border-gray-200 pb-1 hover:scale-[1.01] transition-all duration-500"
                     >
                       <label className="flex justify-between items-center w-full cursor-pointer space-x-2">
-                        <div className="flex justify-start items-start text-start space-x-2">
+                        <div className="flex items-start text-start space-x-2">
                           <input
                             type="checkbox"
                             checked={
@@ -94,7 +121,6 @@ export default function OnboardingProjectOverview({
                             {task.task}
                           </span>
                         </div>
-
                         <span className="bg-gray-100 px-2 py-1 rounded text-[10px] md:text-sm ml-2">
                           {task.role}
                         </span>
@@ -102,18 +128,30 @@ export default function OnboardingProjectOverview({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </AnimatePresence>
 
-        <Button
-          onClick={handleNext}
-          className="bg-blue-500 text-white px-6 py-2 rounded self-start w-1/2 lg:w-1/6 mb-5"
-        >
-          Continue
-        </Button>
+        {/* Section 3: Navigation */}
+        <div className="flex gap-4 mt-6">
+          {stagePage > 0 && (
+            <Button
+              onClick={handleBack}
+              className="bg-gray-300 text-black px-6 py-2 rounded w-1/2 lg:w-1/6"
+            >
+              Back
+            </Button>
+          )}
+          <Button
+            onClick={handleContinue}
+            variant="primary"
+            className="bg-blue-500 text-white px-6 py-2 rounded w-1/2 lg:w-1/6"
+          >
+            {stagePage === stageGroups.length - 1 ? "Continue" : "Next"}
+          </Button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
