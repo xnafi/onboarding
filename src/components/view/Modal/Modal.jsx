@@ -24,11 +24,11 @@ const ROLE_OPTIONS = [
 ];
 
 const CHALLENGE_OPTIONS = [
-  "Faster Response Times - Speed to Lead and with the best of Sales, Support and Billing",
-  "24/7 Lead Capture & Engagement - Custom Ai managed lead qualifying",
-  "Automated Lead Nurturing - Ai managed and lead management",
-  "Better Insights & Tracking - Full AI Real Time Reports",
-  "More Time to Run Their Business - Automated Front and back Office",
+  "I need to respond to leads faster.",
+  "I need to capture leads 24/7.",
+  "I need to automate follow-up.",
+  "I need better reporting on my leads",
+  "I need to save time and automate my busywork.",
 ];
 
 export default function Modal({ isOpen, onClose }) {
@@ -129,7 +129,7 @@ export default function Modal({ isOpen, onClose }) {
       {
         key: "step3",
         title: "Get started with Quantum OS!",
-        subtitle: "What’s your biggest challenge right now",
+        subtitle: "What's your main business challenge?",
         options: CHALLENGE_OPTIONS,
         name: "companyChallenge",
         value: form.companyChallenge,
@@ -151,7 +151,7 @@ export default function Modal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const currentStep = steps[step - 1];
-  const { key, component, ...stepProps } = currentStep; // Extract key
+  const { key, component, ...stepProps } = currentStep;
 
   return (
     <div
@@ -161,6 +161,9 @@ export default function Modal({ isOpen, onClose }) {
       onKeyDown={(e) => e.key === "Escape" && handleClose()}
     >
       <div className="bg-white rounded-xl shadow-xl relative w-full max-w-md sm:max-w-lg lg:max-w-2xl p-4 sm:p-6 lg:p-8 min-h-[80vh] max-h-[90vh] overflow-hidden overflow-y-visible md:overflow-y-hidden">
+        <div className="flex mx-auto justify-center items-center mb-2 font-semibold capitalize">
+          {step === totalSteps && <p>Great work you're almost there!</p>}
+        </div>
         <button
           aria-label="Close modal"
           className="absolute top-2 right-2 cursor-pointer bg-red-500 text-white px-2 rounded-md text-sm sm:text-base"
@@ -180,7 +183,7 @@ export default function Modal({ isOpen, onClose }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="mt-10"
+            className="mt-2"
           >
             {component ? (
               component

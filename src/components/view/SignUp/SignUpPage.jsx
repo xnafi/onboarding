@@ -1,5 +1,6 @@
 import logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router";
+import Button from "../../re-ui/Button";
 
 export default function SignUpPage({ form, handleChange }) {
   const navigate = useNavigate();
@@ -27,9 +28,9 @@ export default function SignUpPage({ form, handleChange }) {
 
   return (
     <div className="flex items-center justify-center h-full bg-transparent">
-      <div className="w-full max-w-md bg-transparent rounded-lg">
+      <div className="w-full max-w-lg bg-transparent rounded-lg">
         {/* Logo */}
-        <div className="flex h-full max-w-[410px] flex-col gap-y-4">
+        <div className="flex h-full max-w-[600px] flex-col gap-y-4">
           <div className="flex items-center gap-2 mb-auto">
             <img
               src={logo}
@@ -42,10 +43,15 @@ export default function SignUpPage({ form, handleChange }) {
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold mb-2">
-            👋 Build Your Free Proposal Today
+          <h1 className="text-2xl font-bold">
+            👋 Unlock Your Custom QuantumOS.ai Proposal
           </h1>
-        
+          <p className="font-semibold mb-2">
+            Based on your needs, we're crafting a personalized plan to boost
+            your business. Just a few details and you'll get instant access to
+            your tailored strategy and pricing." (This sets expectations,
+            explains the "why," and emphasizes speed.)
+          </p>
         </div>
 
         {/* Form */}
@@ -92,12 +98,12 @@ export default function SignUpPage({ form, handleChange }) {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
+            className="w-full py-2 "
           >
-            Sign in
-          </button>
+            Get My Custom Proposal
+          </Button>
         </form>
       </div>
     </div>
