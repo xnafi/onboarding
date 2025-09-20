@@ -49,8 +49,7 @@ export default function SignUpPage({ form, handleChange }) {
           <p className="font-semibold mb-2">
             Based on your needs, we're crafting a personalized plan to boost
             your business. Just a few details and you'll get instant access to
-            your tailored strategy and pricing." (This sets expectations,
-            explains the "why," and emphasizes speed.)
+            your tailored strategy and pricing.
           </p>
         </div>
 
