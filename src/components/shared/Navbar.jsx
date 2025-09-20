@@ -20,7 +20,7 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <a
+          {/* <a
             href="#support"
             className="flex items-center gap-1 text-gray-700 hover:text-blue-600"
           >
@@ -31,7 +31,7 @@ export default function Navbar() {
             className="flex items-center gap-1 text-gray-700 hover:text-blue-600"
           >
             Account
-          </a>
+          </a> */}
         </div>
       </div>
     </nav>
