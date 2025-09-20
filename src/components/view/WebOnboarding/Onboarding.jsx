@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import Celebration from "../../hooks/Celebration";
 import OnboardingModal from "./OnboardingModal/OnboardingModal";
 import OnBoardingVideo from "./OnBoardingComponents/OnBoardingVideo";
-import SetupAccount from "./OnBoardingComponents/SetupAccount";
 import DescribeBusiness from "./OnBoardingComponents/DescribeBusiness";
 import OnboardingRole from "./OnBoardingComponents/OnboardingRole";
 import OnboardingProjectDetails from "./OnBoardingComponents/OnboardingProjectDetails";
@@ -55,7 +54,7 @@ export default function Onboarding() {
 
   const handleNext = useCallback(() => {
     setDirection(1);
-    if (currentStep < 6) {
+    if (currentStep < 5) {
       setCurrentStep((prev) => prev + 1);
     } else {
       setCelebrate(true);
@@ -82,7 +81,6 @@ export default function Onboarding() {
   const stepContent = useMemo(
     () => [
       <OnBoardingVideo handleNext={handleNext} />,
-      <SetupAccount handleNext={handleNext} />,
       <DescribeBusiness
         form={form}
         handleChange={handleChange}
@@ -244,7 +242,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50 flex flex-col overflow-hidden">
+    <div className="relative min-h-screen flex flex-col overflow-hidden">
       <Navbar />
 
       {/* Modal */}

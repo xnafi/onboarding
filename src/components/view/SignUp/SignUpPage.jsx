@@ -43,11 +43,9 @@ export default function SignUpPage({ form, handleChange }) {
 
           {/* Title */}
           <h1 className="text-2xl font-bold mb-2">
-            👋 Try Free Proposal Today
+            👋 Build Your Free Proposal Today
           </h1>
-          <p className="text-gray-500 text-sm mb-6">
-            Sign up to continue to QuantumOS.ai
-          </p>
+        
         </div>
 
         {/* Form */}

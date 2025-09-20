@@ -1,35 +1,32 @@
 import { useState, useEffect } from "react";
 import Navbar from "../../shared/Navbar";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/style.css";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import Button from "../../re-ui/Button";
 
-const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data";
-
-// Dummy options for radio button section
-const RADIO_OPTIONS = ["Option 1", "Option 2", "Option 3"];
+const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data/ujerhue";
 
 export default function Dashboard() {
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(new Date());
   const [loginForm, setLoginForm] = useState({
     email: "",
     meeting_time: "",
-    radioSelection: "", // for dummy radio buttons
+    discuss_about: [],
   });
 
-  // Load saved data from localStorage
+  // Load saved data
   useEffect(() => {
     const savedForm = JSON.parse(localStorage.getItem("onboardingForm")) || {};
     const savedOnboardingData =
       JSON.parse(localStorage.getItem("onboardingData")) || {};
 
     if (savedForm?.userInfo?.[0]) {
-      const { email, meeting_date, meeting_time, radioSelection } =
+      const { email, meeting_date, meeting_time, discuss_about } =
         savedForm.userInfo[0];
       setLoginForm({
         email: email || "",
         meeting_time: meeting_time || "",
-        radioSelection: radioSelection || "",
+        discuss_about: discuss_about || [],
       });
       if (meeting_date) setSelected(new Date(meeting_date));
     }
@@ -40,12 +37,20 @@ export default function Dashboard() {
     );
   }, []);
 
-  // Handle input change
   const handleLoginChange = (e) => {
-    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+    const { name, value, checked, type } = e.target;
+
+    if (type === "checkbox") {
+      setLoginForm((prev) => {
+        const prevArr = prev[name] || [];
+        if (checked) return { ...prev, [name]: [...prevArr, value] };
+        else return { ...prev, [name]: prevArr.filter((v) => v !== value) };
+      });
+    } else {
+      setLoginForm({ ...loginForm, [name]: value });
+    }
   };
 
-  // Send data to webhook
   const sendDataToWebhook = async (data) => {
     try {
       const existingData =
@@ -69,7 +74,6 @@ export default function Dashboard() {
     }
   };
 
-  // Handle submit
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
@@ -96,102 +100,115 @@ export default function Dashboard() {
 
     sendDataToWebhook(formData);
 
-    setLoginForm({ email: "", meeting_time: "", radioSelection: "" });
-    setSelected(undefined);
+    setLoginForm({ email: "", meeting_time: "", discuss_about: [] });
+    setSelected(new Date());
   };
 
+  const DISCUSS_OPTIONS = [
+    "pricing",
+    "timeline/milestone",
+    "scope of work",
+    "help my business",
+  ];
+
   return (
-    <div className="relative h-full bg-gray-50 flex flex-col">
+    <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
       <Navbar />
 
-      <div className="flex flex-col justify-center items-center h-full max-w-xl mx-auto mt-20 mb-10 overflow-x-hidden">
-        <h2 className="text-2xl lg:text-4xl font-bold mb-4 text-center max-w-lg capitalize text-blue-500">
-          Build My Proposal!
-        </h2>
+      <div className="flex flex-col lg:flex-row justify-center items-center w-full mx-auto mt-10 mb-20 gap-10 max-w-[1440px] px-4">
+        {/* Form Card */}
+        <div className="w-full lg:w-1/2 bg-white rounded-3xl shadow-lg p-6 md:p-10">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-blue-600 text-center">
+            Build My Proposal!
+          </h2>
 
-        {/* Dummy Radio Button Section */}
-        <div className="w-full mb-6">
-          <span className="block text-sm font-medium text-gray-700 mb-2 px-2">
-            Choose an option
-          </span>
+          {/* Discuss Options - Multiple Selection */}
+          <div className="flex flex-wrap gap-3 mb-6">
+            <h3 className="w-full text-lg md:text-xl font-semibold text-gray-800">
+              Let's Discuss
+            </h3>
+            {DISCUSS_OPTIONS.map((option, idx) => (
+              <label
+                key={idx}
+                className={`cursor-pointer px-2 py-3 rounded-xl border transition-all flex-1 min-w-[140px] text-center text-sm sm:text-base
+                  ${
+                    loginForm.discuss_about.includes(option)
+                      ? "bg-blue-100 border-blue-500 shadow-md font-medium"
+                      : "bg-white border-gray-300 hover:shadow"
+                  }`}
+              >
+                <input
+                  type="checkbox"
+                  name="discuss_about"
+                  value={option}
+                  checked={loginForm.discuss_about.includes(option)}
+                  onChange={handleLoginChange}
+                  className="hidden"
+                />
+                {option}
+              </label>
+            ))}
+          </div>
 
-          {RADIO_OPTIONS.map((option, idx) => (
-            <label
-              key={idx}
-              className={`flex items-center mb-1 px-2 cursor-pointer rounded-md`}
-            >
+          {/* Form */}
+          <form className="space-y-6" onSubmit={handleLoginSubmit}>
+            {/* Email */}
+            <div className="flex flex-col space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Email Address
+              </label>
               <input
-                type="radio"
-                name="radioSelection"
-                value={option}
-                checked={loginForm.radioSelection === option}
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={loginForm.email}
                 onChange={handleLoginChange}
-                className="h-4 w-4 text-blue-600 border-gray-300"
+                className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none transition"
+                required
               />
-              <span className="ml-2 text-gray-700">{option}</span>
-            </label>
-          ))}
-        </div>
+            </div>
 
-        <form
-          className="self-start w-full space-y-4 px-2"
-          onSubmit={handleLoginSubmit}
-        >
-          {/* Email */}
-          <div className="flex-1 space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={loginForm.email}
-              onChange={handleLoginChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 sm:text-sm ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
-              required
-            />
-          </div>
-
-          {/* Appointment Date */}
-          <div className="flex-1 space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Would You Like Casual Appointment?
-            </label>
-            <DayPicker
-              className="border p-2 rounded-xl"
-              mode="single"
-              selected={selected}
-              onSelect={setSelected}
-              footer={
-                selected
+            {/* Appointment Date */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-medium text-gray-700 mb-5">
+                Would You Like a Casual Appointment?
+              </label>
+              <Calendar
+                onChange={setSelected}
+                value={selected}
+                minDate={new Date()}
+                className="rounded-xl border shadow-sm p-2 mx-auto"
+              />
+              <p className="text-xs text-gray-500 text-center">
+                {selected
                   ? `Selected: ${selected.toLocaleDateString()}`
-                  : "Pick a date."
-              }
-              disabled={{ before: new Date() }}
-            />
-          </div>
+                  : "Pick a date"}
+              </p>
+            </div>
 
-          {/* Time */}
-          <div className="flex-1 space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Select Time
-            </label>
-            <input
-              type="time"
-              name="meeting_time"
-              value={loginForm.meeting_time}
-              onChange={handleLoginChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 sm:text-sm ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
-              required
-            />
-          </div>
+            {/* Time */}
+            <div className="flex flex-col space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Select Time
+              </label>
+              <input
+                type="time"
+                name="meeting_time"
+                value={loginForm.meeting_time}
+                onChange={handleLoginChange}
+                className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none transition"
+                required
+              />
+            </div>
 
-          {/* Submit */}
-          <div className="mx-auto flex justify-center">
-            <Button type="submit">SUBMIT</Button>
-          </div>
-        </form>
+            {/* Submit */}
+            <div className="flex justify-center">
+              <Button variant="primary" type="submit">
+                SUBMIT
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

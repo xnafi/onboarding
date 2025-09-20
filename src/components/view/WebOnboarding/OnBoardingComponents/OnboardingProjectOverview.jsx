@@ -51,7 +51,7 @@ export default function OnboardingProjectOverview({
   };
 
   return (
-    <div className="flex flex-col gap-8 p-1 md:p-6 max-w-6xl w-full mx-auto">
+    <div className="flex flex-col gap-8 p-1 md:p-6 max-w-6xl w-full mx-auto my-4">
       {/* Section 1: Project Info */}
       <div className="flex flex-col items-start justify-center">
         <h2 className="text-3xl lg:text-5xl font-bold mb-2">{projectTitle}</h2>
@@ -59,14 +59,14 @@ export default function OnboardingProjectOverview({
           {projectDescription}
         </p>
 
-        <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4 place-items-center justify-start items-start">
+        <div className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-3 min-h-md md:gap-4 place-items-center justify-start items-start w-full">
           {stages.map((stage) => (
             <span
               key={stage.name}
-              className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg h-10 w-full"
+              className="px-3 py-1 md:pt-0 rounded-full text-sm text-white md:text-lg h-10 w-full flex justify-center items-center"
               style={{ backgroundColor: stage.color }}
             >
-              {stage.name}
+           {stage.name.slice(0, 20)}..
             </span>
           ))}
         </div>
@@ -142,8 +142,9 @@ export default function OnboardingProjectOverview({
         <div className="flex gap-4 mt-6">
           {stagePage > 0 && (
             <Button
+              variant="secondary"
               onClick={handleBack}
-              className="bg-gray-300 text-black px-6 py-2 rounded w-1/2 lg:w-1/6"
+              className="px-6 py-2 rounded w-1/2 lg:w-1/6"
             >
               Back
             </Button>
@@ -151,7 +152,7 @@ export default function OnboardingProjectOverview({
           <Button
             onClick={handleContinue}
             variant="primary"
-            className="bg-blue-500 text-white px-6 py-2 rounded w-1/2 lg:w-1/6"
+            className="px-6 py-2 rounded w-1/2 lg:w-1/6"
           >
             {stagePage === stageGroups.length - 1 ? "Continue" : "Next"}
           </Button>

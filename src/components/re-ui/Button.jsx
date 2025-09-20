@@ -8,10 +8,10 @@ export default function Button({
   let variantClass = "";
   switch (variant) {
     case "primary":
-      variantClass = "bg-[#EEF5FF] text-[#5072DF]";
+      variantClass = "bg-[#2196F3] text-white shadow-lg";
       break;
     case "secondary":
-      variantClass = "bg-[#5072DF] text-white";
+      variantClass = "bg-[#EEF5FF] text-[#2196F3] shadow-lg";
       break;
     case "danger":
       variantClass = "bg-red-500 text-white";

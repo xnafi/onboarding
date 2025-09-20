@@ -7,8 +7,8 @@ export default function OnboardingRole({
   handleNext,
 }) {
   return (
-    <div className="flex flex-col items-center max-w-md justify-center mx-auto">
-      <h2 className="text-2xl font-bold mb-4">
+    <div className="flex flex-col items-center max-w-md justify-center mx-auto px-2">
+      <h2 className="text-2xl font-bold mb-4 capitalize">
         what's your role at the company?
       </h2>
       <input
@@ -21,13 +21,14 @@ export default function OnboardingRole({
       />
       <div className="flex justify-between mt-4 w-full ">
         <Button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
+          variant="secondary"
+          className="px-4 py-2 rounded"
           onClick={handlePrev}
         >
           Back
         </Button>
         <Button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="px-4 py-2 rounded"
           onClick={handleNext}
         >
           Next

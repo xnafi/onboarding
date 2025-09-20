@@ -95,7 +95,7 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
 
       <Button
         onClick={handleNext}
-        className="bg-blue-500 text-white px-6 py-2 rounded mt-6"
+        className="px-6 py-2 rounded mt-6"
       >
         Continue
       </Button>
