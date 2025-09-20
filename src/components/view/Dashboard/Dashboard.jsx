@@ -6,11 +6,15 @@ import Button from "../../re-ui/Button";
 
 const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data";
 
+// Dummy options for radio button section
+const RADIO_OPTIONS = ["Option 1", "Option 2", "Option 3"];
+
 export default function Dashboard() {
   const [selected, setSelected] = useState();
   const [loginForm, setLoginForm] = useState({
     email: "",
     meeting_time: "",
+    radioSelection: "", // for dummy radio buttons
   });
 
   // Load saved data from localStorage
@@ -19,17 +23,17 @@ export default function Dashboard() {
     const savedOnboardingData =
       JSON.parse(localStorage.getItem("onboardingData")) || {};
 
-    // Populate email, meeting_time, and date
     if (savedForm?.userInfo?.[0]) {
-      const { email, meeting_date, meeting_time } = savedForm.userInfo[0];
+      const { email, meeting_date, meeting_time, radioSelection } =
+        savedForm.userInfo[0];
       setLoginForm({
         email: email || "",
         meeting_time: meeting_time || "",
+        radioSelection: radioSelection || "",
       });
       if (meeting_date) setSelected(new Date(meeting_date));
     }
 
-    // Merge onboardingData
     localStorage.setItem(
       "combinedOnboardingData",
       JSON.stringify({ ...savedForm, ...savedOnboardingData })
@@ -44,7 +48,6 @@ export default function Dashboard() {
   // Send data to webhook
   const sendDataToWebhook = async (data) => {
     try {
-      // Save to localStorage array
       const existingData =
         JSON.parse(localStorage.getItem("onboarding_form_user_data")) || [];
       existingData.push(data);
@@ -53,7 +56,6 @@ export default function Dashboard() {
         JSON.stringify(existingData)
       );
 
-      // Send to webhook
       const response = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -71,7 +73,6 @@ export default function Dashboard() {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
-    // Combine all data: modal form + onboarding steps + dashboard
     const onboardingForm = JSON.parse(
       localStorage.getItem("onboardingForm")
     ) || {
@@ -90,15 +91,12 @@ export default function Dashboard() {
       meeting_date: selected ? selected.toISOString() : null,
     };
 
-    // Save combined data to localStorage
     onboardingForm.userInfo[0] = formData;
     localStorage.setItem("onboardingForm", JSON.stringify(onboardingForm));
 
-    // Send everything to webhook
     sendDataToWebhook(formData);
 
-    // Reset form if needed
-    setLoginForm({ email: "", meeting_time: "" });
+    setLoginForm({ email: "", meeting_time: "", radioSelection: "" });
     setSelected(undefined);
   };
 
@@ -107,9 +105,33 @@ export default function Dashboard() {
       <Navbar />
 
       <div className="flex flex-col justify-center items-center h-full max-w-xl mx-auto mt-20 mb-10 overflow-x-hidden">
-        <h2 className="text-2xl lg:text-4xl font-bold mb-4 text-center max-w-lg capitalize">
-          Build your proposal
+        <h2 className="text-2xl lg:text-4xl font-bold mb-4 text-center max-w-lg capitalize text-blue-500">
+          Build My Proposal!
         </h2>
+
+        {/* Dummy Radio Button Section */}
+        <div className="w-full mb-6">
+          <span className="block text-sm font-medium text-gray-700 mb-2 px-2">
+            Choose an option
+          </span>
+
+          {RADIO_OPTIONS.map((option, idx) => (
+            <label
+              key={idx}
+              className={`flex items-center mb-1 px-2 cursor-pointer rounded-md`}
+            >
+              <input
+                type="radio"
+                name="radioSelection"
+                value={option}
+                checked={loginForm.radioSelection === option}
+                onChange={handleLoginChange}
+                className="h-4 w-4 text-blue-600 border-gray-300"
+              />
+              <span className="ml-2 text-gray-700">{option}</span>
+            </label>
+          ))}
+        </div>
 
         <form
           className="self-start w-full space-y-4 px-2"

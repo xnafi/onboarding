@@ -5,48 +5,58 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
   const employees = [
     {
       id: 1,
-      name: "Alfred",
-      role: "AI Executive Assistant",
+      name: "Alli Ai CO-CEO",
+      role: "Helps guide you and run all the workflows 24/7",
       img: "/ai/alfred.png",
     },
     {
       id: 2,
-      name: "Chip",
-      role: "AI Sales Representative",
+      name: "Get Connected",
+      role: "The most cost efficient client capture solution ever",
       img: "/ai/chip.png",
     },
     {
       id: 3,
-      name: "Clide",
-      role: "AI Customer Support Specialist",
+      name: "Pocket Boss",
+      role: "Ai Driven Business in Box",
       img: "/ai/clide.png",
     },
-    { id: 4, name: "Dot", role: "AI Recruiter", img: "/ai/dot.png" },
     {
-      id: 5,
-      name: "Millie",
-      role: "AI Project Manager",
+      id: 4,
+      name: "Air Assistance",
+      role: "Voice Command and control your Ai",
       img: "/ai/millie.png",
     },
-    { id: 6, name: "Spec", role: "AI Researcher", img: "/ai/spec.png" },
+    {
+      id: 5,
+      name: "Affiliate Boss",
+      role: "Track your product sales and expand your business",
+      img: "/ai/dot.png",
+    },
+    {
+      id: 6,
+      name: "Project Boss",
+      role: "Manages all your projects/integrates with project boss",
+      img: "/ai/millie.png",
+    },
     {
       id: 7,
-      name: "Suki",
-      role: "AI Marketing Associate",
-      img: "/ai/suki.png",
+      name: "Number Boss",
+      role: "Secure Data Analysis of your Business",
+      img: "/ai/millie.png",
     },
   ];
 
   const [selected, setSelected] = useState(form.aiEmployees || []);
 
-  const toggleSelect = (id) => {
-    const updated = selected.includes(id)
-      ? selected.filter((s) => s !== id)
-      : [...selected, id];
+  const toggleSelect = (emp) => {
+    const updated = selected.includes(emp.name)
+      ? selected.filter((s) => s !== emp.name)
+      : [...selected, emp.name];
 
     setSelected(updated);
 
-    // ✅ Save into form
+    // Save into form
     handleChange({
       target: { name: "aiEmployees", value: updated },
     });
@@ -62,21 +72,23 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
         you can focus on creative and meaningful work!
       </p>
 
-      <div className="flex flex-wrap justify-center gap-4 max-w-4xl w-full">
+      <div className="flex flex-wrap justify-center gap-4 max-w-4xl w-full h-[400px]">
         {employees.map((emp) => (
           <div
             key={emp.id}
-            onClick={() => toggleSelect(emp.id)}
+            onClick={() => toggleSelect(emp)}
             className={`flex flex-col items-center p-4 rounded-xl border cursor-pointer transition w-full md:w-[190px] bg-gradient-to-b
               ${
-                selected.includes(emp.id)
+                selected.includes(emp.name)
                   ? "bg-gradient-to-b from-blue-100 to-blue-300 border-blue-500 shadow-md"
                   : "bg-gradient-to-b from-white to-gray-100 border-gray-200 hover:shadow"
               }`}
           >
-            <img src={emp.img} alt={emp.name} className="w-20 h-20 mb-3" />
-            <h3 className="font-semibold">{emp.name}</h3>
-            <p className="text-xs text-gray-500 text-center">{emp.role}</p>
+            {/* <img src={emp.img} alt={emp.name} className="w-20 h-20 mb-3" /> */}
+            <div className="flex flex-col justify-between h-full">
+              <h3 className="font-semibold">{emp.name}</h3>
+              <p className="text-xs text-gray-500 text-center">{emp.role}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -87,11 +99,6 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
       >
         Continue
       </Button>
-      {/* Display collected form data */}
-      {/* <div className="mt-4 text-sm text-gray-600">
-        <strong>Collected Data:</strong>
-        <pre>{JSON.stringify(form, null, 2)}</pre>
-      </div> */}
     </div>
   );
 }

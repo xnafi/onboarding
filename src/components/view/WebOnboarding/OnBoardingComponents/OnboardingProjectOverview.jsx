@@ -66,7 +66,7 @@ export default function OnboardingProjectOverview({
               className="inline-block px-3 py-1 rounded-full text-sm text-white md:text-lg h-10 w-full"
               style={{ backgroundColor: stage.color }}
             >
-              {stage.name.slice(0, 25)}..
+              {stage.name}
             </span>
           ))}
         </div>

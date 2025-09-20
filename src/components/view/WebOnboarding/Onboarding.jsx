@@ -188,19 +188,19 @@ export default function Onboarding() {
             tasks: [
               {
                 task: "All Workflows Pre-built - Full Business Automation",
-                role: "Scheduling Assistant AI",
+                role: "",
               },
               {
                 task: "Smart Calendar Management - Multi-calendar coordination with conflict resolution",
-                role: "Data Entry AI",
+                role: "",
               },
               {
                 task: "Automated Reminders - Task deadlines, client check-ins & payment notifications",
-                role: "Reporting Analyst AI",
+                role: "",
               },
               {
                 task: "Executive Dashboard - Unified interface with mobile accessibility",
-                role: "Reporting Analyst AI",
+                role: "",
               },
             ],
           },
