@@ -1,29 +1,44 @@
+import { useState } from "react";
 import logo from "../../../assets/logo.png";
-import { useNavigate } from "react-router";
 import Button from "../../re-ui/Button";
+import { useNavigate } from "react-router";
 
 export default function SignUpPage({ form, handleChange }) {
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
-  // Handle form submission
+  // Handle user info submit
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
-    // Save user info to onboarding form
-    const updatedForm = {
-      ...form,
-      userInfo: [
-        {
-          firstName: form.firstName || "",
-          lastName: form.lastName || "",
-          phone: form.phone || "",
-        },
-      ],
-    };
+    if (!otpSent) {
+      // Save user info
+      const updatedForm = {
+        ...form,
+        userInfo: [
+          {
+            firstName: form.firstName || "",
+            lastName: form.lastName || "",
+            phone: form.phone || "",
+          },
+        ],
+      };
+      localStorage.setItem("onboardingForm", JSON.stringify(updatedForm));
 
-    localStorage.setItem("onboardingForm", JSON.stringify(updatedForm));
+      // Simulate sending OTP (replace with API call later)
+      console.log("OTP sent to:", form.phone);
+      setOtpSent(true);
+      return;
+    }
 
-    navigate("/web-onboarding");
+    // OTP verification step
+    if (otp.length === 6) {
+      console.log("OTP Verified:", otp);
+      navigate("/web-onboarding");
+    } else {
+      alert("Please enter a valid 6-digit OTP.");
+    }
   };
 
   return (
@@ -47,61 +62,83 @@ export default function SignUpPage({ form, handleChange }) {
             👋 Unlock Your Custom QuantumOS.ai Proposal
           </h1>
           <p className="font-semibold mb-2">
-            Based on your needs, we're crafting a personalized plan to boost
-            your business. Just a few details and you'll get instant access to
-            your tailored strategy and pricing.
+            {otpSent
+              ? "Enter the OTP sent to your phone to continue."
+              : "Based on your needs, we're crafting a personalized plan to boost your business. Just a few details and you'll get instant access to your tailored strategy and pricing."}
           </p>
         </div>
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleLoginSubmit}>
-          <div className="flex space-x-3">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={form.firstName || ""}
-                onChange={handleChange}
-                placeholder="First Name"
-                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
-              />
-            </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={form.lastName || ""}
-                onChange={handleChange}
-                placeholder="Last Name"
-                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              name="phone"
-              value={form.phone || ""}
-              onChange={handleChange}
-              placeholder="Phone number"
-              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
-            />
-          </div>
+          {!otpSent ? (
+            <>
+              {/* First + Last Name */}
+              <div className="flex space-x-3">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={form.firstName || ""}
+                    onChange={handleChange}
+                    placeholder="First Name"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={form.lastName || ""}
+                    onChange={handleChange}
+                    placeholder="Last Name"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+              </div>
 
-          <Button
-            type="submit"
-            className="w-full py-2 "
-          >
-            Get My Custom Proposal
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={form.phone || ""}
+                  onChange={handleChange}
+                  placeholder="Phone number"
+                  className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {/* OTP Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Enter OTP
+                </label>
+                <input
+                  type="text"
+                  name="otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="4-digit OTP"
+                  maxLength={4}
+                  className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm tracking-widest text-center"
+                />
+              </div>
+            </>
+          )}
+
+          <Button type="submit" className="w-full py-2 ">
+            {otpSent ? "OTP" : "Submit And Check For OTP"}
           </Button>
         </form>
       </div>
