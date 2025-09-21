@@ -155,7 +155,7 @@ export default function Modal({ isOpen, onClose }) {
 
   return (
     <div
-      role="dialog"
+      role="onboarding"
       aria-modal="true"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2 sm:px-4"
       onKeyDown={(e) => e.key === "Escape" && handleClose()}
