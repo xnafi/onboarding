@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../../../assets/logo.png";
 import Button from "../../re-ui/Button";
 import { useNavigate } from "react-router";
 
 export default function SignUpPage({ form, handleChange }) {
-  const [otpSent, setOtpSent] = useState(false);
+  const [otpSent, setOtpSent] = useState(
+    () => JSON.parse(localStorage.getItem("otpSent")) || false
+  );
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
-  // Handle user info submit
+  // Sync otpSent with localStorage
+  useEffect(() => {
+    localStorage.setItem("otpSent", JSON.stringify(otpSent));
+  }, [otpSent]);
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
@@ -26,18 +32,22 @@ export default function SignUpPage({ form, handleChange }) {
       };
       localStorage.setItem("onboardingForm", JSON.stringify(updatedForm));
 
-      // Simulate sending OTP (replace with API call later)
+      // Simulate sending OTP
       console.log("OTP sent to:", form.phone);
       setOtpSent(true);
       return;
     }
 
-    // OTP verification step
-    if (otp.length === 6) {
+    // OTP verification
+    if (otp.length === 4) {
       console.log("OTP Verified:", otp);
+
+      // ✅ Clear OTP state when done
+      localStorage.removeItem("otpSent");
+
       navigate("/web-onboarding");
     } else {
-      alert("Please enter a valid 6-digit OTP.");
+      alert("Please enter a valid 4-digit OTP.");
     }
   };
 
@@ -138,7 +148,7 @@ export default function SignUpPage({ form, handleChange }) {
           )}
 
           <Button type="submit" className="w-full py-2 ">
-            {otpSent ? "OTP" : "Submit And Check For OTP"}
+            {otpSent ? "Verify OTP" : "Submit And Get OTP"}
           </Button>
         </form>
       </div>
