@@ -16,7 +16,6 @@ export default function Onboarding() {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
     website: "",
-    role: "",
     projectDetails: "",
   });
   const [currentStep, setCurrentStep] = useState(0);
@@ -53,7 +52,7 @@ export default function Onboarding() {
 
   const handleNext = useCallback(() => {
     setDirection(1);
-    if (currentStep < 5) {
+    if (currentStep < 4) {
       setCurrentStep((prev) => prev + 1);
     } else {
       setCelebrate(true);
@@ -81,12 +80,6 @@ export default function Onboarding() {
     () => [
       <OnBoardingVideo handleNext={handleNext} />,
       <DescribeBusiness
-        form={form}
-        handleChange={handleChange}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />,
-      <OnboardingRole
         form={form}
         handleChange={handleChange}
         handlePrev={handlePrev}
