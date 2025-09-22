@@ -10,6 +10,7 @@ import OnboardingRole from "./OnBoardingComponents/OnboardingRole";
 import OnboardingProjectDetails from "./OnBoardingComponents/OnboardingProjectDetails";
 import OnboardingProjectOverview from "./OnBoardingComponents/OnboardingProjectOverview";
 import AiEmployees from "./OnBoardingComponents/AiEmployees";
+import ProjectStages from "../../../config/projectStages";
 
 export default function Onboarding() {
   const navigate = useNavigate();
@@ -95,124 +96,8 @@ export default function Onboarding() {
         projectTitle="Here’s your project!"
         projectDescription="In QuantumOS, projects are divided into Stages based on the type of services you choose. Each stage has tasks handled by specialized AI roles."
         companyName="Acme Business"
-        stages={[
-          {
-            name: "🎯 Lead Capture & Sales Growth",
-            color: "#4CAF50",
-            tasks: [
-              {
-                task: " Smart Lead Management - Auto-capture, score & route leads from all sources",
-                role: "Ai Contact Manager",
-              },
-              {
-                task: "Sales Pipeline Automation - Automate deal progression, approvals & follow-ups",
-                role: "Ai Marketing Planner",
-              },
-              {
-                task: "Lead Scoring & Handoffs - Predictive scoring with automated sales notifications ",
-                role: "Ai Lead Insights Specialist",
-              },
-            ],
-          },
-          {
-            name: "📱 Marketing & Social MediaMarketing & Social Media",
-            color: "#FF9800",
-            tasks: [
-              {
-                task: "Social Media Management - Schedule posts, automate engagement & track ROI",
-                role: "Ai Social Media Manager",
-              },
-              {
-                task: "Audience Segmentation - Dynamic lists based on behavior & demographics",
-                role: "Ai Lead Gen Specialist",
-              },
-              {
-                task: "Content Calendar Automation - Automated publishing with performance tracking",
-                role: "Ai Social Media Manager",
-              },
-              {
-                task: "Contact and Lead Campaign Development - Multi-touch point tracking with ROI analysis",
-                role: "Ai PPC Analyst",
-              },
-            ],
-          },
-          {
-            name: "💬 Customer Support Excellence",
-            color: "#2196F3",
-            tasks: [
-              {
-                task: " AI Chatbot & Self-Service - 24/7 handling Inbound and outbound calls and messages",
-                role: "Ai Receptionist",
-              },
-              {
-                task: "Smart Ticket Routing - Auto-categorize by urgency, customer tier & issue type",
-                role: "Ai Customer Support",
-              },
-              {
-                task: "Omni-Channel Management - Unified conversations across all communication channels",
-                role: "Ai CRM Manage",
-              },
-            ],
-          },
-          {
-            name: "🏢 Back Office Operations",
-            color: "#E91E63",
-            tasks: [
-              {
-                task: "Document Processing - OCR data extraction with automated approval workflows",
-                role: "Ai Doc Controller",
-              },
-              {
-                task: "Financial Automation - Invoice generation, payment processing & reporting",
-                role: "Ai Bookkeeper",
-              },
-              {
-                task: "HR & Employee Management - Onboarding, scheduling & performance tracking",
-                role: "Ai Human Resource Manager",
-              },
-            ],
-          },
-          {
-            name: "🤖 Personal AI Assistant / with (Pocket Boss) with Alli your AI Co-CEO",
-            color: "#9C27B0",
-            tasks: [
-              {
-                task: "All Workflows Pre-built - Full Business Automation",
-                role: "",
-              },
-              {
-                task: "Smart Calendar Management - Multi-calendar coordination with conflict resolution",
-                role: "",
-              },
-              {
-                task: "Automated Reminders - Task deadlines, client check-ins & payment notifications",
-                role: "",
-              },
-              {
-                task: "Executive Dashboard - Unified interface with mobile accessibility",
-                role: "",
-              },
-            ],
-          },
-          {
-            name: "📊 Data & Analytics Intelligence",
-            color: "#3F51B5",
-            tasks: [
-              {
-                task: " Real-Time KPI Tracking - Multi-system integration with automated alerts",
-                role: "",
-              },
-              {
-                task: "Automated Reporting - Scheduled reports with predictive insights",
-                role: "",
-              },
-              {
-                task: "Advanced Analytics - Predictive modeling, anomaly detection & ROI calculations",
-                role: "",
-              },
-            ],
-          },
-        ]}
+        stages={ProjectStages}
+       
         form={form}
         handleChange={handleChange}
         handlePrev={handlePrev}
