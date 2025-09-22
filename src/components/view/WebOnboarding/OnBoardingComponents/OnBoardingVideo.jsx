@@ -7,20 +7,16 @@ export default function OnBoardingVideo({ handleNext }) {
       {/* Video Player */}
       <div className="w-full max-w-[1440px] aspect-[16/9] h-[400px] lg:h-auto xl:w-[890px] my-4">
         <ReactPlayer
-          src="https://www.youtube.com/watch?v=Io0fBr1XBUA"
+          src="https://youtube.com/shorts/TAhhIQuqyAU?feature=share"
           width="100%"
           height="100%"
           controls={true}
-
         />
       </div>
 
       {/* Next Button */}
       <div className="mt-4">
-        <Button
-          className="px-4 py-2 rounded"
-          onClick={handleNext}
-        >
+        <Button className="px-4 py-2 rounded" onClick={handleNext}>
           Next
         </Button>
       </div>
