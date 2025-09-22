@@ -6,7 +6,7 @@ export default function Hero() {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="flex justify-center items-center flex-col h-screen w-full">
+    <div className="flex justify-center items-center flex-col h-full w-full">
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );

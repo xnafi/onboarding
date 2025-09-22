@@ -26,7 +26,13 @@ export default function SignUpPage({ form, handleChange }) {
           {
             firstName: form.firstName || "",
             lastName: form.lastName || "",
+            email: form.email || "",
             phone: form.phone || "",
+            broker_name: form.broker_name || "",
+            team_name: form.team_name || "",
+            website: form.website || "",
+            facebook: form.facebook || "",
+            ig: form.ig || "",
           },
         ],
       };
@@ -112,17 +118,107 @@ export default function SignUpPage({ form, handleChange }) {
                 </div>
               </div>
 
-              {/* Phone */}
+              {/* Email + Phone */}
+              <div className="flex space-x-3">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email || ""}
+                    onChange={handleChange}
+                    placeholder="Email address"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={form.phone || ""}
+                    onChange={handleChange}
+                    placeholder="Phone number"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Broker Name + Team Name */}
+              <div className="flex space-x-3">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Broker Name
+                  </label>
+                  <input
+                    type="text"
+                    name="broker_name"
+                    value={form.broker_name || ""}
+                    onChange={handleChange}
+                    placeholder="Broker name"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Team Name
+                  </label>
+                  <input
+                    type="text"
+                    name="team_name"
+                    value={form.team_name || ""}
+                    onChange={handleChange}
+                    placeholder="Team name"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Website + Facebook */}
+              <div className="flex space-x-3">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Website
+                  </label>
+                  <input
+                    type="url"
+                    name="website"
+                    value={form.website || ""}
+                    onChange={handleChange}
+                    placeholder="https://example.com"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Facebook
+                  </label>
+                  <input
+                    type="url"
+                    name="facebook"
+                    value={form.facebook || ""}
+                    onChange={handleChange}
+                    placeholder="Facebook profile link"
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Instagram (alone) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Phone Number
+                  Instagram
                 </label>
                 <input
-                  type="text"
-                  name="phone"
-                  value={form.phone || ""}
+                  type="url"
+                  name="ig"
+                  value={form.ig || ""}
                   onChange={handleChange}
-                  placeholder="Phone number"
+                  placeholder="Instagram profile link"
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm"
                 />
               </div>

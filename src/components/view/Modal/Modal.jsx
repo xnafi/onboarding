@@ -157,10 +157,10 @@ export default function Modal({ isOpen, onClose }) {
     <div
       role="onboarding"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2 sm:px-4"
+      className="inset-0 z-50 flex items-center justify-center bg-black/50 px-2 sm:px-4 w-full min-h-screen py-10"
       onKeyDown={(e) => e.key === "Escape" && handleClose()}
     >
-      <div className="bg-white rounded-xl shadow-xl relative w-full max-w-md sm:max-w-lg lg:max-w-2xl p-4 sm:p-6 lg:p-8 min-h-[80vh] max-h-[90vh] overflow-hidden overflow-y-visible md:overflow-y-hidden">
+      <div className="bg-white rounded-xl shadow-xl relative w-full max-w-md sm:max-w-lg lg:max-w-2xl p-4 sm:p-6 lg:p-8 min-h-[80vh] overflow-hidden overflow-y-visible">
         <div className="flex mx-auto justify-center items-center mb-2 font-semibold capitalize">
           {step === totalSteps && <p>Great work you're almost there!</p>}
         </div>
