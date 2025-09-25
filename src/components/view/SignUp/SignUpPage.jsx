@@ -91,11 +91,11 @@ export default function SignUpPage({ form, handleChange }) {
         const dataUser = await resUser.json();
         console.log("User info response:", dataUser);
 
-        // ✅ Handle user creation success or already exists (P2002)
+        // Handle user creation success or already exists (P2002)
         if (resUser.ok && dataUser.core === 200) {
           console.log("User info saved successfully.");
 
-          // 👉 Save id in localStorage
+          // Save id in localStorage
           if (dataUser.result?.id) {
             localStorage.setItem(
               "onboardingData",
