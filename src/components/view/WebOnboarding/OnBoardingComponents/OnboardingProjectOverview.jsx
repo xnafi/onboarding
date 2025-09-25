@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Button from "../../../re-ui/Button";
-// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function OnboardingProjectOverview({
@@ -11,18 +10,30 @@ export default function OnboardingProjectOverview({
   handleChange,
   handleNext,
 }) {
-  const [stagePage, setStagePage] = useState(0); // current 3-stage group
+  const [stagePage, setStagePage] = useState(0); // current stage group
 
-  // Handle multiple task selection
+  // Map stage names to your desired keys
+  const stageKeyMap = {
+    "🎯 Lead Capture & Sales Growth": "leadCap_saleGrowth",
+    "📱 Marketing & Social Media": "market_socialMed",
+    "💬 Customer Support Excellence": "cust_support",
+    "🏢 Back Office Operations": "office_oper",
+    "🤖 Personal AI Assistant / (Pocket Boss) with Alli your AI Co-CEO":
+      "personal_aiAssit",
+    "📊 Data & Analytics Intelligence": "data_analyInt",
+  };
+
+  // Handle task selection
   const handleTaskSelect = (stageName, taskName) => {
-    const selectedTasks = form[stageName] || [];
+    const key = stageKeyMap[stageName] || stageName; // fallback to stageName if not in map
+    const selectedTasks = form[key] || [];
     const updatedTasks = selectedTasks.includes(taskName)
       ? selectedTasks.filter((t) => t !== taskName)
       : [...selectedTasks, taskName];
 
-    const updatedForm = { ...form, [stageName]: updatedTasks };
+    const updatedForm = { ...form, [key]: updatedTasks };
+    handleChange({ target: { name: key, value: updatedTasks } });
 
-    handleChange({ target: { name: stageName, value: updatedTasks } });
     localStorage.setItem("onboardingData", JSON.stringify(updatedForm));
   };
 
@@ -31,7 +42,7 @@ export default function OnboardingProjectOverview({
     localStorage.setItem("onboardingData", JSON.stringify(form));
   }, [form]);
 
-  // Group stages into chunks of 3
+  // Group stages into chunks of 2
   const stageGroups = [];
   for (let i = 0; i < stages.length; i += 2) {
     stageGroups.push(stages.slice(i, i + 2));
@@ -86,7 +97,6 @@ export default function OnboardingProjectOverview({
           Choose the automation areas most important to your business growth:
         </p>
 
-        {/* Animate entire page group */}
         <AnimatePresence mode="wait">
           <motion.div
             key={stagePage}
@@ -115,7 +125,9 @@ export default function OnboardingProjectOverview({
                           <input
                             type="checkbox"
                             checked={
-                              form[stage.name]?.includes(task.task) || false
+                              form[stageKeyMap[stage.name]]?.includes(
+                                task.task
+                              ) || false
                             }
                             onChange={() =>
                               handleTaskSelect(stage.name, task.task)

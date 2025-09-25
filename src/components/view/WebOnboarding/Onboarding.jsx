@@ -16,8 +16,8 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
-    website: "",
-    projectDetails: "",
+    business_web: "",
+    business_name: "",
   });
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);

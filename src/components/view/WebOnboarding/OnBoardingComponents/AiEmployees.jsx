@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../../../re-ui/Button";
 
 export default function AiEmployees({ form, handleChange, handleNext }) {
@@ -47,7 +47,8 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
     },
   ];
 
-  const [selected, setSelected] = useState(form.aiEmployees || []);
+  // Initialize selected from form.personal_aiAssit
+  const [selected, setSelected] = useState(form.personal_aiAssit || []);
 
   const toggleSelect = (emp) => {
     const updated = selected.includes(emp.name)
@@ -56,11 +57,20 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
 
     setSelected(updated);
 
-    // Save into form
+    // Save into form using the correct key
     handleChange({
-      target: { name: "aiEmployees", value: updated },
+      target: { name: "personal_aiAssit", value: updated },
     });
+
+    // Optionally persist in localStorage
+    const updatedForm = { ...form, personal_aiAssit: updated };
+    localStorage.setItem("onboardingData", JSON.stringify(updatedForm));
   };
+
+  // Sync state with form changes (if form updated elsewhere)
+  useEffect(() => {
+    setSelected(form.personal_aiAssit || []);
+  }, [form.personal_aiAssit]);
 
   return (
     <div className="flex flex-col items-center h-full my-4">
@@ -84,7 +94,6 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
                   : "bg-gradient-to-b from-white to-gray-100 border-gray-200 hover:shadow"
               }`}
           >
-            {/* <img src={emp.img} alt={emp.name} className="w-20 h-20 mb-3" /> */}
             <div className="flex flex-col justify-between h-full">
               <h3 className="font-semibold">{emp.name}</h3>
               <p className="text-xs text-gray-500 text-center">{emp.role}</p>
@@ -93,10 +102,7 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
         ))}
       </div>
 
-      <Button
-        onClick={handleNext}
-        className="px-6 py-2 rounded mt-6"
-      >
+      <Button onClick={handleNext} className="px-6 py-2 rounded mt-6">
         Continue
       </Button>
     </div>

@@ -15,8 +15,8 @@ export default function DescribeBusiness({
 
       <textarea
         rows={5}
-        name="business_info"
-        value={form.business_info}
+        name="business_name"
+        value={form.business_name}
         onChange={handleChange}
         placeholder="Tell me about your business.."
         className="border p-2 w-full max-w-md mb-4 shadow-md rounded-md ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
@@ -24,8 +24,8 @@ export default function DescribeBusiness({
 
       <textarea
         rows={2}
-        name="website"
-        value={form.website}
+        name="business_web"
+        value={form.business_web}
         onChange={handleChange}
         placeholder="Enter website"
         className="border p-2 w-full max-w-md mb-4 shadow-md rounded-md ring-1 hover:ring-blue-600 focus:ring-blue-600 outline-none border-none"
