@@ -34,22 +34,31 @@ const CHALLENGE_OPTIONS = [
 export default function Modal({ isOpen, onClose }) {
   const totalSteps = 4;
 
+  // step persists to localStorage
   const [step, setStep] = useState(
     () => Number(localStorage.getItem("onboardingStep")) || 1
   );
 
+  // Persisted form (business-related only)
   const [form, setForm] = useState(() => {
     return (
       JSON.parse(localStorage.getItem("onboardingForm")) || {
-        employeeCount: "",
-        companyRole: "",
-        companyChallenge: [],
-        userInfo: [{ firstName: "", lastName: "", phone: "" }],
+        team_size: "",
+        cmpy_role: "",
+        business_challange: [],
       }
     );
   });
 
-  // Save form to localStorage with debounce
+  // Non-persisted signup info (never saved to localStorage)
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+  });
+
+  // Save only form (exclude userInfo) to localStorage with debounce
   useEffect(() => {
     const id = setTimeout(() => {
       localStorage.setItem("onboardingForm", JSON.stringify(form));
@@ -57,6 +66,7 @@ export default function Modal({ isOpen, onClose }) {
     return () => clearTimeout(id);
   }, [form]);
 
+  // Save current step
   useEffect(() => {
     localStorage.setItem("onboardingStep", step);
   }, [step]);
@@ -64,23 +74,20 @@ export default function Modal({ isOpen, onClose }) {
   const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
 
+    // user info fields → do NOT persist
+    if (["firstName", "lastName", "phone", "email"].includes(name)) {
+      setUserInfo((prev) => ({ ...prev, [name]: value }));
+      return;
+    }
+
+    // form fields → persist
     setForm((prev) => {
       if (type === "checkbox") {
         const prevArr = prev[name] || [];
-        if (checked) {
-          return { ...prev, [name]: [...prevArr, value] };
-        } else {
-          return { ...prev, [name]: prevArr.filter((v) => v !== value) };
-        }
+        return checked
+          ? { ...prev, [name]: [...prevArr, value] }
+          : { ...prev, [name]: prevArr.filter((v) => v !== value) };
       }
-
-      if (["firstName", "lastName", "phone"].includes(name)) {
-        return {
-          ...prev,
-          userInfo: [{ ...prev.userInfo[0], [name]: value }],
-        };
-      }
-
       return { ...prev, [name]: value };
     });
   }, []);
@@ -96,11 +103,11 @@ export default function Modal({ isOpen, onClose }) {
   const handleClose = useCallback(() => {
     setStep(1);
     setForm({
-      employeeCount: "",
-      companyRole: "",
-      companyChallenge: [],
-      userInfo: [{ firstName: "", lastName: "", phone: "" }],
+      team_size: "",
+      cmpy_role: "",
+      business_challange: [],
     });
+    setUserInfo({ firstName: "", lastName: "", phone: "", email: "" });
     localStorage.removeItem("onboardingForm");
     localStorage.removeItem("onboardingStep");
     onClose?.();
@@ -113,8 +120,8 @@ export default function Modal({ isOpen, onClose }) {
         title: "Get started with Quantum OS!",
         subtitle: "What size team are you working with?",
         options: EMPLOYEE_OPTIONS,
-        name: "employeeCount",
-        value: form.employeeCount,
+        name: "team_size",
+        value: form.team_size,
         type: "radio",
       },
       {
@@ -122,8 +129,8 @@ export default function Modal({ isOpen, onClose }) {
         title: "Get started with Quantum OS!",
         subtitle: "What is your role in the company?",
         options: ROLE_OPTIONS,
-        name: "companyRole",
-        value: form.companyRole,
+        name: "cmpy_role",
+        value: form.cmpy_role,
         type: "radio",
       },
       {
@@ -131,21 +138,21 @@ export default function Modal({ isOpen, onClose }) {
         title: "Get started with Quantum OS!",
         subtitle: "What's your main business challenge?",
         options: CHALLENGE_OPTIONS,
-        name: "companyChallenge",
-        value: form.companyChallenge,
+        name: "business_challange",
+        value: form.business_challange,
         type: "checkbox",
       },
       {
         key: "step4",
         component: (
           <SignUpPage
-            form={{ ...form.userInfo[0], ...form }}
+            form={{ ...form, ...userInfo }}
             handleChange={handleChange}
           />
         ),
       },
     ],
-    [form, handleChange]
+    [form, userInfo, handleChange]
   );
 
   if (!isOpen) return null;
