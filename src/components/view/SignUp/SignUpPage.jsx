@@ -18,7 +18,7 @@ export default function SignUpPage({ form, handleChange }) {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email, phone: +16028774602 }),
+          body: JSON.stringify({ email: form.email, phone: form.phone }),
         }
       );
       const data = await res.json();
@@ -99,7 +99,7 @@ export default function SignUpPage({ form, handleChange }) {
           if (dataUser.result?.id) {
             localStorage.setItem(
               "onboardingData",
-              JSON.stringify({ id: dataUser.result.id })
+              JSON.stringify({ userId: dataUser.result.id })
             );
             console.log("Saved onboardingData:", {
               id: dataUser.result.id,

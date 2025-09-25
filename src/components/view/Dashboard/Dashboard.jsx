@@ -1,107 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Button from "../../re-ui/Button";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
-const WEBHOOK_URL = "https://n8n.quantumos.ai/webhook/onboarding_data";
+const WEBHOOK_URL =
+  "https://onbording-backend.dev.quantumos.ai/api/proposal/create";
 
 export default function Dashboard() {
   const [selected, setSelected] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   const [loginForm, setLoginForm] = useState({
     email: "",
     meeting_time: "",
-    discuss_about: [],
+    discuss_topic: [],
   });
-
-  // Load saved data
-  useEffect(() => {
-    const savedForm = JSON.parse(localStorage.getItem("onboardingForm")) || {};
-    const savedOnboardingData =
-      JSON.parse(localStorage.getItem("onboardingData")) || {};
-
-    if (savedForm?.userInfo?.[0]) {
-      const { email, meeting_date, meeting_time, discuss_about } =
-        savedForm.userInfo[0];
-      setLoginForm({
-        email: email || "",
-        meeting_time: meeting_time || "",
-        discuss_about: discuss_about || [],
-      });
-      if (meeting_date) setSelected(new Date(meeting_date));
-    }
-
-    localStorage.setItem(
-      "combinedOnboardingData",
-      JSON.stringify({ ...savedForm, ...savedOnboardingData })
-    );
-  }, []);
-
-  const handleLoginChange = (e) => {
-    const { name, value, checked, type } = e.target;
-
-    if (type === "checkbox") {
-      setLoginForm((prev) => {
-        const prevArr = prev[name] || [];
-        if (checked) return { ...prev, [name]: [...prevArr, value] };
-        else return { ...prev, [name]: prevArr.filter((v) => v !== value) };
-      });
-    } else {
-      setLoginForm({ ...loginForm, [name]: value });
-    }
-  };
-
-  const sendDataToWebhook = async (data) => {
-    try {
-      const existingData =
-        JSON.parse(localStorage.getItem("onboarding_form_user_data")) || [];
-      existingData.push(data);
-      localStorage.setItem(
-        "onboarding_form_user_data",
-        JSON.stringify(existingData)
-      );
-
-      const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(existingData),
-      });
-
-      if (response.ok) console.log("Onboarding data sent successfully!");
-      else console.error("Failed to send onboarding data");
-    } catch (err) {
-      console.error("Error sending onboarding data:", err);
-    }
-  };
-
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-
-    const onboardingForm = JSON.parse(
-      localStorage.getItem("onboardingForm")
-    ) || {
-      employeeCount: "",
-      companyRole: "",
-      companyChallenge: [],
-      userInfo: [{}],
-    };
-    const onboardingData =
-      JSON.parse(localStorage.getItem("onboardingData")) || {};
-
-    const formData = {
-      ...onboardingForm.userInfo[0],
-      ...onboardingData,
-      ...loginForm,
-      meeting_date: selected ? selected.toISOString() : null,
-    };
-
-    onboardingForm.userInfo[0] = formData;
-    localStorage.setItem("onboardingForm", JSON.stringify(onboardingForm));
-
-    sendDataToWebhook(formData);
-
-    setLoginForm({ email: "", meeting_time: "", discuss_about: [] });
-    setSelected(new Date());
-  };
 
   const DISCUSS_OPTIONS = [
     "pricing",
@@ -109,6 +25,89 @@ export default function Dashboard() {
     "scope of work",
     "help my business",
   ];
+
+  // Handle input changes
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "discuss_about") {
+      setLoginForm((prev) => {
+        const exists = prev.discuss_topic.includes(value);
+        return {
+          ...prev,
+          discuss_topic: exists
+            ? prev.discuss_topic.filter((v) => v !== value)
+            : [...prev.discuss_topic, value],
+        };
+      });
+    } else {
+      setLoginForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  // Convert "HH:mm" to "hh:mmAM/PM"
+  const formatTime = (time) => {
+    if (!time) return "";
+    const [hour, minute] = time.split(":").map(Number);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+    return `${hour12.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")}${ampm}`;
+  };
+
+  // Merge selected date + meeting_time into ISO string
+  const getDiscussDateTime = () => {
+    if (!selected || !loginForm.meeting_time) return "";
+    const [hours, minutes] = loginForm.meeting_time.split(":").map(Number);
+    const date = new Date(selected);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date.toISOString();
+  };
+
+  // Handle form submit
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const payload = {
+      email: loginForm.email,
+      discuss_topic: loginForm.discuss_topic,
+      discuss_date: getDiscussDateTime(),
+      discuss_time: formatTime(loginForm.meeting_time),
+    };
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Failed to create proposal");
+
+      const responseData = await res.json();
+      console.log("✅ Proposal created successfully", responseData);
+
+      // Show popup
+      setIsPopupOpen(true);
+
+      // Navigate after 3 seconds
+      setTimeout(() => {
+        window.location.href = "https://www.quantumos.ai/";
+      }, 3000);
+    } catch (err) {
+      console.error("❌ Error submitting proposal:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
@@ -119,7 +118,7 @@ export default function Dashboard() {
             Build My Proposal!
           </h2>
 
-          {/* Discuss Options - Multiple Selection */}
+          {/* Discuss Options */}
           <div className="flex flex-wrap gap-3 mb-6">
             <h3 className="w-full text-lg md:text-xl font-semibold text-gray-800">
               Let's Discuss
@@ -129,7 +128,7 @@ export default function Dashboard() {
                 key={idx}
                 className={`cursor-pointer px-2 py-3 rounded-xl border transition-all flex-1 min-w-[140px] text-center text-sm sm:text-base
                   ${
-                    loginForm.discuss_about.includes(option)
+                    loginForm.discuss_topic.includes(option)
                       ? "bg-blue-100 border-blue-500 shadow-md font-medium"
                       : "bg-white border-gray-300 hover:shadow"
                   }`}
@@ -138,7 +137,7 @@ export default function Dashboard() {
                   type="checkbox"
                   name="discuss_about"
                   value={option}
-                  checked={loginForm.discuss_about.includes(option)}
+                  checked={loginForm.discuss_topic.includes(option)}
                   onChange={handleLoginChange}
                   className="hidden"
                 />
@@ -191,7 +190,7 @@ export default function Dashboard() {
               <input
                 type="time"
                 name="meeting_time"
-                value={loginForm.meeting_time}
+                value={loginForm.meeting_time || ""}
                 onChange={handleLoginChange}
                 className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none transition"
                 required
@@ -200,13 +199,26 @@ export default function Dashboard() {
 
             {/* Submit */}
             <div className="flex justify-center">
-              <Button variant="primary" type="submit">
-                SUBMIT
+              <Button
+                variant="primary"
+                type="submit"
+                className="w-full py-2"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "SUBMIT"}
               </Button>
             </div>
           </form>
         </div>
       </div>
+
+      {/* Success Popup */}
+      <Popup open={isPopupOpen} closeOnDocumentClick={false} modal>
+        <div className="p-6 text-center">
+          <h2 className="text-xl font-bold mb-4">✅ Proposal Submitted!</h2>
+          <p>Your proposal has been submitted successfully. Redirecting...</p>
+        </div>
+      </Popup>
     </div>
   );
 }

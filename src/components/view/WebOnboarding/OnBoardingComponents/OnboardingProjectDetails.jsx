@@ -16,7 +16,7 @@ export default function OnboardingProjectDetails({
       <textarea
         cols={80}
         rows={15}
-        name="projectDetails"
+        name="about_cmpy"
         value={form.about_cmpy}
         onChange={handleChange}
         placeholder="I would like to have..."

@@ -18,6 +18,7 @@ export default function Onboarding() {
   const [form, setForm] = useState({
     business_web: "",
     business_name: "",
+    about_cmpy: "",
   });
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -97,7 +98,6 @@ export default function Onboarding() {
         projectDescription="In QuantumOS, projects are divided into Stages based on the type of services you choose. Each stage has tasks handled by specialized AI roles."
         companyName="Acme Business"
         stages={ProjectStages}
-       
         form={form}
         handleChange={handleChange}
         handlePrev={handlePrev}
