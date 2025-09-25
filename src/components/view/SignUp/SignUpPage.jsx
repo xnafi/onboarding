@@ -9,34 +9,29 @@ export default function SignUpPage({ form, handleChange }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Step Send OTP
+  // Step 1: Send OTP
   const sendOtp = async () => {
     try {
       setLoading(true);
-      const resOtp = await fetch(
+      const res = await fetch(
         "https://onbording-backend.dev.quantumos.ai/api/onboard/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email, phone: form.phone }),
+          body: JSON.stringify({ email: form.email, phone: +16028774602 }),
         }
       );
-      const dataOtp = await resOtp.json();
-      console.log("OTP send response:", dataOtp);
+      const data = await res.json();
+      console.log("Send OTP response:", data);
 
-      if (!resOtp.ok) {
-        if (dataOtp.err?.code === "P2002") {
-          console.log("OTP already exists, proceed to OTP input.");
-          setOtpSent(true);
-        } else {
-          console.log("Failed to send OTP:", dataOtp.message);
-        }
-        return;
+      if (res.ok || data.err?.code === "P2002") {
+        console.log("OTP sent or already exists. Proceed to OTP input.");
+        setOtpSent(true);
+      } else {
+        console.log("Failed to send OTP:", data.message);
       }
-
-      setOtpSent(true);
-    } catch (error) {
-      console.log("Error sending OTP:", error);
+    } catch (err) {
+      console.log("Error sending OTP:", err);
     } finally {
       setLoading(false);
     }
@@ -70,7 +65,7 @@ export default function SignUpPage({ form, handleChange }) {
         dataVerify.core === 200 &&
         dataVerify.message === "OTP Verified successfully"
       ) {
-        // OTP verified Send user info
+        // OTP verified → send user info
         const userInfoPayload = {
           first_name: form.firstName || "",
           last_name: form.lastName || "",
@@ -82,6 +77,7 @@ export default function SignUpPage({ form, handleChange }) {
           fb: form.facebook || "",
           insta: form.ig || "",
         };
+        console.log("Sending user info payload:", userInfoPayload);
 
         const resUser = await fetch(
           "https://onbording-backend.dev.quantumos.ai/api/onboard/userinfo",
@@ -95,18 +91,34 @@ export default function SignUpPage({ form, handleChange }) {
         const dataUser = await resUser.json();
         console.log("User info response:", dataUser);
 
-        if (resUser.ok) {
-          setOtp("");
-          setOtpSent(false);
-          navigate("/web-onboarding");
+        // ✅ Handle user creation success or already exists (P2002)
+        if (resUser.ok && dataUser.core === 200) {
+          console.log("User info saved successfully.");
+
+          // 👉 Save id in localStorage
+          if (dataUser.result?.id) {
+            localStorage.setItem(
+              "onboardingData",
+              JSON.stringify({ id: dataUser.result.id })
+            );
+            console.log("Saved onboardingData:", {
+              id: dataUser.result.id,
+            });
+          }
         } else {
           console.log("Failed to send user info:", dataUser);
+          return;
         }
+
+        // Reset OTP & navigate
+        setOtp("");
+        setOtpSent(false);
+        navigate("/web-onboarding");
       } else {
         console.log("OTP verification failed:", dataVerify);
       }
-    } catch (error) {
-      console.log("Error during OTP verification or sending user info:", error);
+    } catch (err) {
+      console.log("Error verifying OTP or sending user info:", err);
     } finally {
       setLoading(false);
     }
@@ -118,29 +130,26 @@ export default function SignUpPage({ form, handleChange }) {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-transparent">
-      <div className="w-full max-w-lg bg-transparent rounded-lg">
+    <div className="flex items-center justify-center bg-transparent">
+      <div className="w-full max-w-lg bg-transparent rounded-lg p-6">
         {/* Logo & Title */}
-        <div className="flex h-full max-w-[600px] flex-col gap-y-4">
-          <div className="flex items-center gap-2 mb-auto">
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-14 rounded-full h-14 bg-black"
-            />
-            <span className="text-xl font-bold ml-2 text-black">
-              QuantumOS.ai
-            </span>
-          </div>
-          <h1 className="text-2xl font-bold">
-            👋 Unlock Your Custom QuantumOS.ai Proposal
-          </h1>
-          <p className="font-semibold mb-2">
-            {otpSent
-              ? "Enter the OTP sent to your email to continue."
-              : "Fill out your details and receive a personalized strategy instantly."}
-          </p>
+        <div className="flex items-center gap-2 mb-6">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-14 h-14 rounded-full bg-black"
+          />
+          <span className="text-xl font-bold text-black">QuantumOS.ai</span>
         </div>
+
+        <h1 className="text-2xl font-bold mb-2">
+          👋 Unlock Your Custom QuantumOS.ai Proposal
+        </h1>
+        <p className="font-semibold mb-4">
+          {otpSent
+            ? "Enter the OTP sent to your email to continue."
+            : "Fill out your details and receive a personalized strategy instantly."}
+        </p>
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -205,7 +214,6 @@ export default function SignUpPage({ form, handleChange }) {
                 </div>
               </div>
 
-              {/* Broker & Team */}
               <div className="flex space-x-3">
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
@@ -235,7 +243,6 @@ export default function SignUpPage({ form, handleChange }) {
                 </div>
               </div>
 
-              {/* Website & Facebook */}
               <div className="flex space-x-3">
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
@@ -265,7 +272,6 @@ export default function SignUpPage({ form, handleChange }) {
                 </div>
               </div>
 
-              {/* Instagram */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Instagram
@@ -281,23 +287,20 @@ export default function SignUpPage({ form, handleChange }) {
               </div>
             </>
           ) : (
-            <>
-              {/* OTP Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Enter OTP
-                </label>
-                <input
-                  type="text"
-                  name="otp"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  placeholder="4-digit OTP"
-                  maxLength={5}
-                  className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm tracking-widest text-center"
-                />
-              </div>
-            </>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Enter OTP
+              </label>
+              <input
+                type="text"
+                name="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="4-digit OTP"
+                maxLength={5}
+                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-black focus:border-black sm:text-sm text-center tracking-widest"
+              />
+            </div>
           )}
 
           <Button type="submit" className="w-full py-2" disabled={loading}>

@@ -50,19 +50,24 @@ export default function Modal({ isOpen, onClose }) {
     );
   });
 
-  // Non-persisted signup info (never saved to localStorage)
+  // Non-persisted signup info (NEVER saved to localStorage)
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
-    phone: "",
     email: "",
+    phone: "",
+    broker_name: "",
+    team_name: "",
+    website: "",
+    facebook: "",
+    ig: "",
   });
 
   // Save only form (exclude userInfo) to localStorage with debounce
   useEffect(() => {
     const id = setTimeout(() => {
       localStorage.setItem("onboardingForm", JSON.stringify(form));
-    }, 500);
+    }, 400);
     return () => clearTimeout(id);
   }, [form]);
 
@@ -75,7 +80,19 @@ export default function Modal({ isOpen, onClose }) {
     const { name, value, type, checked } = e.target;
 
     // user info fields → do NOT persist
-    if (["firstName", "lastName", "phone", "email"].includes(name)) {
+    if (
+      [
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "broker_name",
+        "team_name",
+        "website",
+        "facebook",
+        "ig",
+      ].includes(name)
+    ) {
       setUserInfo((prev) => ({ ...prev, [name]: value }));
       return;
     }
@@ -107,7 +124,17 @@ export default function Modal({ isOpen, onClose }) {
       cmpy_role: "",
       business_challange: [],
     });
-    setUserInfo({ firstName: "", lastName: "", phone: "", email: "" });
+    setUserInfo({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      broker_name: "",
+      team_name: "",
+      website: "",
+      facebook: "",
+      ig: "",
+    });
     localStorage.removeItem("onboardingForm");
     localStorage.removeItem("onboardingStep");
     onClose?.();
