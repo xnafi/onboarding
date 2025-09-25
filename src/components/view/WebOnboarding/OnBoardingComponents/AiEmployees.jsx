@@ -49,6 +49,7 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
 
   // Initialize selected from form.personal_aiAssit
   const [selected, setSelected] = useState(form.personal_aiAssit || []);
+  const [loading, setLoading] = useState(false);
 
   const toggleSelect = (emp) => {
     const updated = selected.includes(emp.name)
@@ -62,7 +63,7 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
       target: { name: "personal_aiAssit", value: updated },
     });
 
-    // Optionally persist in localStorage
+    // Save to localStorage onboardingData
     const updatedForm = { ...form, personal_aiAssit: updated };
     localStorage.setItem("onboardingData", JSON.stringify(updatedForm));
   };
@@ -71,6 +72,48 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
   useEffect(() => {
     setSelected(form.personal_aiAssit || []);
   }, [form.personal_aiAssit]);
+
+  // Merge localStorage and send POST
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const onboardingForm =
+        JSON.parse(localStorage.getItem("onboardingForm")) || {};
+      const onboardingData =
+        JSON.parse(localStorage.getItem("onboardingData")) || {};
+
+      // Merge both objects
+      const merged = { ...onboardingForm, ...onboardingData };
+
+      console.log("Final Payload:", merged);
+
+      const res = await fetch(
+        "https://onbording-backend.dev.quantumos.ai/api/onboard/info",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(merged),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to send onboarding info");
+      }
+
+      const data = await res.json();
+      console.log("Onboarding Info Response:", data);
+
+      // move to next step after success
+      handleNext();
+    } catch (error) {
+      console.error("Error sending onboarding info:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center h-full my-4">
@@ -102,8 +145,12 @@ export default function AiEmployees({ form, handleChange, handleNext }) {
         ))}
       </div>
 
-      <Button onClick={handleNext} className="px-6 py-2 rounded mt-6">
-        Continue
+      <Button
+        onClick={handleSubmit}
+        disabled={loading}
+        className="px-6 py-2 rounded mt-6"
+      >
+        {loading ? "Saving..." : "Continue"}
       </Button>
     </div>
   );
